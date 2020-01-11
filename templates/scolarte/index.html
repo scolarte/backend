@@ -1,0 +1,232 @@
+{% extends 'scolarte/base.html' %}
+{% load static %}
+{% block metadescription %}
+{% if category %}
+{{ category.description|truncatewords:155 }}
+{% else %}
+¡Bienvenidos a Stickers Gallito Perú!
+{% endif %}
+{% endblock %}
+{% block title %}
+{% if category %}
+{{ category.name }}
+{% else %}
+Scolarte
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid margin-bottom5 margin-top5">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12 margin-top5">
+                <h1 class="text-center">¡Adquiere los útiles escolares de tus hijos sin salir de casa y a un súper precio!</h1>
+
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 0%;">
+            <div class="col-md-12 margin-top3">
+                <ol style="text-align: left; list-style-position: inside;">
+                    <h2>¿Cómo adquiero mis útiles escolares?</h2>
+                    <div class="margin-top3">
+                    <li>Elige qué tipo de producto deseas: cuadernos, folders,
+                    lapiceros, etc.</li>
+                    <li>Luego indica el tamaño y la cantidad que deseas de estos productos.</li>
+                    <li>Haz el depósito por tu orden de stickers a nuestra cuenta bancaria:</li> 
+                        <ul>
+                            <li><b>BCP - CTA. AHORROS:</b> 191-9327121-0-47</li>
+                            <li><b>BCP - CTA. INTERBANCARIA:</b> 002-191-19322327552047-54</li>
+                        </ul>
+                    <li>O <b>Yapéanos</b> a este número: +519635665265</li>
+                    <li>Para confirmar tu orden deberás enviarnos el voucher o una captura de pantalla del yapeo a nuestro correo: stickersgallito@gmail.com</li>    
+                    <li class="margin-top5">En unos días enviaremos tus stickers a cualquier parte del Perú en la que te encuentres.</li>
+                </div>
+                </ol>    
+            </div>
+            <!-- <div class="col-md-1"></div> -->
+        </div>
+        
+    </div>
+
+
+
+    <div class="text-center" style="margin-top: 2%;">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="my_title">¡Suscríbete y recibe nuestras ofertas!</p>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-12">
+                {% csrf_token %}
+                <form action="" method="post">
+                    {{ email_signup_form }}
+                    <button type="submit" class="btn">Suscribirse</button>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="row margin-top3">
+            <div class="col-md-12">
+                <p class="my_title">Hacemos envíos a todo Ecuador</p>
+            </div>
+        </div>
+
+        
+
+
+    </div>
+
+</div>
+</div>
+
+<!-- ######## -->
+<!--DJ  NAOKI -->
+
+<!-- Modal Image -->
+<div class="modal fade" id="StickersClientes-DJNaoki" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-body">
+            <img class="card-img-top" src="" alt="Card image cap">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    $(".djnaoki").click(function () {
+        $("#StickersClientes-DJNaoki").modal('show');
+    });
+</script>
+
+<!-- ######## -->
+<!-- CUTE DOG -->
+<!-- Modal Image -->
+<div class="modal fade" id="StickersClientes-CuteDog" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-body">
+            <img class="card-img-top" src="{% static 'img/clientes/cute_dog.jpg' %}" alt="Card image cap">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    $(".cutedog").click(function () {
+        $("#StickersClientes-CuteDog").modal('show');
+    });
+</script>
+
+<!-- ######### -->
+<!-- COCODRILO -->
+
+<!-- Modal Image -->
+<div class="modal fade" id="StickersClientes-Cocodrilo" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-body">
+            <img class="card-img-top" src="{% static 'img/clientes/cocodrilo_m.JPG' %}" alt="Card image cap">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    $(".cocodrilo").click(function () {
+        $("#StickersClientes-Cocodrilo").modal('show');
+    });
+</script>
+
+<!-- ######### -->
+<!-- ARMAMENTO -->
+
+<!-- Modal Image -->
+<div class="modal fade" id="StickersClientes-Armamento" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-body">
+            <img class="card-img-top" src="{% static 'img/clientes/armamento.jpg' %}" alt="Card image cap">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    $(".armamento").click(function () {
+        $("#StickersClientes-Armamento").modal('show');
+    });
+</script>
+
+<!-- ######### -->
+<!-- GUSTAVO   -->
+
+<!-- Modal Image -->
+<div class="modal fade" id="StickersClientes-Gustavo" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-body">
+            <img class="card-img-top" src="{% static 'img/clientes/gustavo.jpg' %}" alt="Card image cap">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    $(".gustavo").click(function () {
+        $("#StickersClientes-Gustavo").modal('show');
+    });
+</script>
+
+
+
+<!-- ######### -->
+<!-- UNICORNIO -->
+
+<!-- Modal Image -->
+<div class="modal fade" id="StickersClientes-Unicornio" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-body">
+            <img class="card-img-top" src="{% static 'img/clientes/unicornio.jpg' %}" alt="Card image cap">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    $(".unicornio").click(function () {
+        $("#StickersClientes-Unicornio").modal('show');
+    });
+</script>
+
+{% endblock %}
