@@ -1,6 +1,6 @@
 body {
     /*font-family: 'Charm', cursive;*/
-    font-family: 'Bree Serif', serif;
+    font-family: 'Schoolbell', cursive;
 }
 
 .help_size {
@@ -183,6 +183,10 @@ body {
 
 .margin-top5 {
     margin-top: 5% !important;
+}
+
+.margin-top10 {
+    margin-top: 10% !important;
 }
 
 .margin-bottom3 {

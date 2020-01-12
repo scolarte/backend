@@ -9,7 +9,8 @@
     <link href="https://fonts.googleapis.com/css?family=Clicker+Script" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontello-2f186091/css/fontello.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Schoolbell&display=swap" rel="stylesheet">
     {% if user.is_authenticated and user.is_seller %}
       <link rel="stylesheet" type="text/css" href="{% static 'css/teachers.css' %}">
     {% else %}
@@ -23,7 +24,7 @@
           <div class="row">
             <div class="col-6">
               <h1 class="logo">
-                <a href="">
+                <a href="{% url 'core:home' %}">
                   Scolarte
                   {% if user.is_authenticated %}
                     {% if user.is_seller %}
@@ -44,7 +45,7 @@
               {% endif %}
             </div>
           </div>
-          <div class="card mb-3">
+          <div class="card mb-3 padding5">
             <div class="card-body">
               {% for message in messages %}
                 <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">

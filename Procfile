@@ -1,0 +1,1 @@
+web: gunicorn scolarte.wsgi --log-file -

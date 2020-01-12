@@ -18,17 +18,20 @@ class User(AbstractUser):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birthdate = models.DateField(null=True, blank=True)
-    dni = models.CharField(max_length=30, blank=True)
-    phone_number = models.CharField(max_length=30, blank=True)
+    cedula_ruc = models.CharField(max_length=30, blank=True)
+    telephone = models.CharField(max_length=30, blank=True)
+    mobile = models.CharField(max_length=30, blank=True)
+    address = models.CharField(max_length=100, blank=False)
+    address_reference = models.CharField(max_length=100, blank=False)
+    location = models.CharField(max_length=100, blank=False)
     shipping_address = models.CharField(max_length=100, blank=False)
-    reference = models.CharField(max_length=100, blank=False)
-    shipping_department = models.CharField(max_length=100, blank=False)
-    shipping_province = models.CharField(max_length=100, blank=False)
-    shipping_district = models.CharField(max_length=100, blank=False)
-    photo = models.ImageField(upload_to='profile_pics', default='profile_pics/default_profile_pic_white.png')
+    shipping_provincia = models.CharField(max_length=100, blank=False)
+    shipping_canton = models.CharField(max_length=100, blank=False)
+    shipping_parroquia = models.CharField(max_length=100, blank=False)
+    #photo = models.ImageField(upload_to='profile_pics', default='profile_pics/default_profile_pic_white.png')
 
     def __str__(self):
-        return str(self.user.first_name) + "'s profile"
+        return str(self.user.username) + "'s profile"
 
 
 
