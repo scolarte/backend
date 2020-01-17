@@ -13,7 +13,9 @@ class User(AbstractUser):
     is_seller = models.BooleanField(default=False)
     
 
-### User Profile ###
+
+### Profile ####
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
