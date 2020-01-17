@@ -5,6 +5,7 @@ from django.forms.utils import ValidationError
 from django.forms import ModelForm
 from django.forms.widgets import SelectDateWidget
 from roles.models import User, Profile
+from django.http import Http404
 
 
 class SellerSignUpForm(UserCreationForm):
@@ -18,7 +19,7 @@ class SellerSignUpForm(UserCreationForm):
     first_name = forms.CharField(label="Nombre", max_length=100, required=True)
     last_name = forms.CharField(label='Apellido', max_length=100, required=True)
     username = forms.CharField(label='Nombre de usuario', max_length=100, required=True,
-                               error_messages={'invalid': "you custom error message"})
+                               error_messages={'invalid': "Error con el nombre de usuario."})
     email = forms.EmailField(label='Correo electrónico', max_length=60, required=True)
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
@@ -55,8 +56,8 @@ class ClientSignUpForm(UserCreationForm):
         'password_mismatch': "Las contraseñas no coinciden.",
     }
 
-    first_name = forms.CharField(label="Nombre", max_length=100, required=True)
-    last_name = forms.CharField(label='Apellido', max_length=100, required=True)
+    first_name = forms.CharField(label="Nombre", max_length=100, required=False)
+    last_name = forms.CharField(label='Apellido', max_length=100, required=False)
     username = forms.CharField(label='Nombre de usuario', max_length=100, required=True,
                                error_messages={'invalid': "you custom error message"})
     email = forms.EmailField(label='Correo electrónico', max_length=60, required=True)
@@ -66,6 +67,8 @@ class ClientSignUpForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(ClientSignUpForm, self).__init__(*args, **kwargs)
 
+        
+    
         for fieldname in ['username', 'password1', 'password2']:
             self.fields[fieldname].help_text = None
 
@@ -78,15 +81,12 @@ class ClientSignUpForm(UserCreationForm):
                 code='password_mismatch',
             )
 
-
-    @transaction.atomic #llama a otro modelo
+    @transaction.atomic 
     def save(self):
         user = super().save(commit=False)
         user.is_client = True
-        #user.is_client = True
+        user.email = self.cleaned_data.get("email")
         user.save()
-        # student = Student.objects.create(user=user)
-        # student.interests.add(*self.cleaned_data.get('interests'))
         return user
 
 

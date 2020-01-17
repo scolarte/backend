@@ -1,0 +1,171 @@
+{% extends 'scolarte/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    <!-- <div class="col-md-6">
+        <table>
+            <tr>
+                <th>{{ client_form.first_name.label_tag }}</th>
+                <td>
+                    {{ client_form.first_name.errors }}
+                    {{ client_form.first_name }}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ client_form.last_name.label_tag }}</th>
+                <td>
+                    {{ client_form.last_name.errors }}
+                    {{ client_form.last_name }}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ client_form.username.label_tag }}</th>
+                <td>
+                    {{ client_form.username.errors }}
+                    {{ client_form.username }}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ client_profile_form.cedula_ruc.label_tag }}</th>
+                <td>
+                    {{ client_profile_form.cedula_ruc.errors }}
+                    {{ client_profile_form.cedula_ruc }}
+                </td>
+            </tr>
+           
+            <tr>
+                <th>{{ client_form.email.label_tag }}</th>
+                <td>{{ client_form.email }}</td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <span class="errorlist">{{ client_form.password2.errors.0 }}</span>
+                    <span class="errorlist">{{ client_form.password2.errors.1 }}</span>
+                </td>
+            </tr>
+            <tr>
+                <th>{{ client_form.password1.label_tag }}</th>
+                <td>
+                    {{ client_form.password1.errors }}
+                    {{ client_form.password1 }}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ client_form.password2.label_tag }}</th>
+                <td>
+                    {{ client_form.password2 }}
+
+                </td>
+            </tr>
+
+        </table>
+
+    </div> -->
+
+
+    <div class="col-md-12">
+
+        <table>
+
+            <tr>
+                <th>{{ client_profile_form.cedula_ruc.label_tag }}</th>
+                <td>
+                    {{ client_profile_form.cedula_ruc.errors }}
+                    {{ client_profile_form.cedula_ruc }}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ client_profile_form.birthdate.label_tag }}</th>
+                <td>{{ client_profile_form.birthdate }}</td>
+            </tr>
+            <tr>
+                <th>{{ client_profile_form.mobile.label_tag }}</th>
+                <td>
+                    {{ client_profile_form.mobile.errors }}
+                    {{ client_profile_form.mobile }}
+                </td>
+            </tr>
+
+            <tr>
+                <th>{{ client_profile_form.telephone.label_tag }}</th>
+                <td>
+                    {{ client_profile_form.telephone.errors }}
+                    {{ client_profile_form.telephone }}
+                </td>
+            </tr>
+
+            
+
+            <tr>
+                <th>{{ client_profile_form.location.label_tag }}</th>
+                <td>
+                    {{ client_profile_form.location.errors }}
+                    {{ client_profile_form.location }}
+                </td>
+            </tr>
+
+            <tr>
+                <th>{{ client_profile_form.address.label_tag }}</th>
+                <td>
+                    {{ client_profile_form.address.errors }}
+                    {{ client_profile_form.address }}
+                </td>
+            </tr>
+
+            <tr>
+                <th>{{ client_profile_form.address_reference.label_tag }}</th>
+                <td>
+                    {{ client_profile_form.address_reference.errors }}
+                    {{ client_profile_form.address_reference }}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ client_profile_form.shipping_address.label_tag }}</th>
+                <td>
+                    {{ client_profile_form.shipping_address.errors }}
+                    {{ client_profile_form.shipping_address }}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ client_profile_form.shipping_provincia.label_tag }}</th>
+                <td>
+                    {{ client_profile_form.shipping_provincia.errors }}
+                    {{ client_profile_form.shipping_provincia }}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ client_profile_form.shipping_canton.label_tag }}</th>
+                <td>
+                    {{ client_profile_form.shipping_canton.errors }}
+                    {{ client_profile_form.shipping_canton }}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ client_profile_form.shipping_parroquia.label_tag }}</th>
+                <td>
+                    {{ client_profile_form.shipping_parroquia.errors }}
+                    {{ client_profile_form.shipping_parroquia }}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <p></p>
+                </th>
+                <td>
+                    <button class="btn btn-secondary" type="submit">Registrarse</button>
+                </td>
+            </tr>
+
+
+        </table>
+
+    </div>
+
+</form>
+
+{% endblock %}
