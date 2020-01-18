@@ -11,9 +11,11 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     is_client = models.BooleanField(default=False)
     is_seller = models.BooleanField(default=False)
+    
 
 
-### User Profile ###
+### Profile ####
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
