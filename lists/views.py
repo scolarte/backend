@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import List, ListItem
 from products.models import Product, ProductItem
 from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 ### List Details ###
@@ -90,17 +91,19 @@ def add_product_to_list(request):
 
 
 
-class AllLists(TemplateView):
+class AllLists(LoginRequiredMixin, TemplateView):
     template_name = "scolarte/listas.html" 
+    login_url = '/ingresar/'
+    redirect_field_name = 'redirect_to'
 
-    def get_context_data(self, **kwargs): 
+    def get_context_data(self, request, **kwargs): 
         context = kwargs 
-        context['listas'] = List.objects.all()
+        context['listas'] = List.objects.filter(user=request.user)
         return context
 
     #To do
     #Append lists to user    
 
     def get(self, request, *args, **kwargs): 
-        context = self.get_context_data(**kwargs)
+        context = self.get_context_data(request, **kwargs)
         return self.render_to_response(context)  

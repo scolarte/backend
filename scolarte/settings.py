@@ -26,7 +26,6 @@ INSTALLED_APPS = [
     'roles',
     'lists',
     'products',
-    'brands',
     'crispy_forms',
 ]
 

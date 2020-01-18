@@ -15,9 +15,6 @@ class Category(models.Model):
         verbose_name = 'category'
         verbose_name_plural = 'categories'
 
-    # def get_url(self):
-    #     return reverse('shop:allCat', args=[self.slug])
-
     def __str__(self):
         return '{}'.format(self.name)
 
@@ -74,9 +71,6 @@ class Product(models.Model):
         verbose_name = 'product'
         verbose_name_plural = 'products'
 
-    # def get_url(self):
-    #         return reverse('shop:ProdDetail', args=[self.category.slug, self.slug])
-
     def __str__(self):
         return '{}'.format(self.short_name)
 
@@ -95,13 +89,6 @@ class ProductItem(models.Model):
 
  
 
-# class ProductsPricing(models.Model):
-#     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-#     subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
-#     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-#     size = models.CharField(max_length=20, choices=TAMANIOS)
-#     quantity = models.CharField(max_length=20, choices=CANTIDADES)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     modified_at = models.DateTimeField(auto_now=True)
+
         
                 

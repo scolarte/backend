@@ -16,13 +16,6 @@ urlpatterns = [
     path('cuentas/', include('roles.urls')),
     path('listas/', include('lists.urls')),
     path('admin/', admin.site.urls),
-    # path('productos/', include('products.urls')),
-    # path('marcas/', include('brands.urls')),
-    # path('list_de_utiles/', include('lists.urls')),
-    #path('accounts/', include('django.contrib.auth.urls')),
-    # path('accounts/signup/', entry.SignUpView.as_view(), name='signup'),
-    # path('accounts/signup/cliente/', cliente.ClienteSignUpView.as_view(), name='cliente_signup'),
-    # path('accounts/signup/vendedor/', vendedor.VendedorSignUpView.as_view(), name='vendedor_signup'),
 ]
 
 if settings.DEBUG:
