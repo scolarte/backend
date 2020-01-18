@@ -5,6 +5,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 #from roles.views import client, seller
 
+
+# Change names
+admin.site.site_header = "Escolarte Administracion"
+admin.site.site_title = "Escolate Portal Administrativo"
+admin.site.index_title = "Welcome to Escolarte Sitio Administrativo"
+
 urlpatterns = [
     path('', include('core.urls')),
     path('cuentas/', include('roles.urls')),
