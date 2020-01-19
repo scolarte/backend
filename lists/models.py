@@ -2,7 +2,27 @@ from django.db import models
 from products.models import Product
 from roles.models import User
 
+
 # Create your models here.
+
+class School(models.Model):
+    name = models.CharField(max_length=100)
+    address = models.CharField(max_length=100, blank=False)
+    address_reference = models.CharField(max_length=100, blank=False)
+    provincia = models.CharField(max_length=100, blank=False, null=True)
+    canton = models.CharField(max_length=100, blank=False, null=True)
+    parroquia = models.CharField(max_length=100, blank=False, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['created_at']
+
+    def __str__(self):
+        return str(self.name)
+
+
+
 
 class List(models.Model):
     LISTA_STATUS = (
@@ -16,6 +36,7 @@ class List(models.Model):
     lista_id = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    school = models.OneToOneField(School, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, choices=LISTA_STATUS, default='recibida_pagada')
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
@@ -38,20 +59,3 @@ class ListItem(models.Model):
         return int(self.product.price)
 
 
-
-
-class School(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=100, blank=False)
-    address_reference = models.CharField(max_length=100, blank=False)
-    provincia = models.CharField(max_length=100, blank=False, null=True)
-    canton = models.CharField(max_length=100, blank=False, null=True)
-    parroquia = models.CharField(max_length=100, blank=False, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ['created_at']
-
-    def __str__(self):
-        return str(self.name)

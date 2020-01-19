@@ -3,6 +3,7 @@ from .models import List, ListItem
 from products.models import Product, ProductItem
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from decimal import Decimal
 
 # Create your views here.
 ### List Details ###
@@ -14,36 +15,24 @@ def full_remove_product(request, product_item_id):
     return redirect('listas:list_details') 
 
 
-def list_details(request, total=0, counter=0, cart_items=None):
+def list_details(request, lista_id, total=0, counter=0):
     
     try:
-        lista_id = request.COOKIES.get('lista_id')
-        lista = List.objects.get(lista_id=lista_id)
+        #lista_id = request.COOKIES.get('lista_id')
+        lista = List.objects.get(id=lista_id)
+        print("ID LISTA: ", lista.id)
     except ObjectDoesNotExist:
+        print("Entra al Except")
         lista = List.objects.create(lista_id="Random")
       
     list_items = ListItem.objects.filter(lista=lista)
+    print("# item lists: ", len(list_items))
     
     for list_item in list_items:
         total += Decimal(list_item.sub_total())
 
-
-
-    categories = Category.objects.exclude(name='Muestras')
-
-    
-
-    ### Calcular costo despacho ###
-
-    
-    costo_despacho = 15
-
-    total_a_pagar = Decimal(total) + Decimal(costo_despacho)
-
-    return render(request, 'cart.html',
-                    dict(cart_items=cart_items, sample_items=sample_items, pack_items = pack_items, packs_with_min_prices = packs_with_min_prices, descuento = descuento,
-                    descuento_packs_3x2 = descuento_packs_3x2, unitary_product_items = unitary_product_items, total=total, free_shipping_min_amount = free_shipping_min_amount,
-                    counter=counter, categories=categories, total_a_pagar=total_a_pagar, descuento_por_cupon=descuento_por_cupon, costo_despacho=costo_despacho))
+    return render(request, 'scolarte/listas/lista-detalles.html',
+                  dict(lista = lista, list_items = list_items, total=total))
 
 
 
@@ -69,7 +58,7 @@ def add_product_to_list(request):
             subcategory__slug=s_slug,
             slug=product_slug)
 
-        product_item = ProductItem.objects.create(
+        list_item = ListItem.objects.create(
             lista=lista,
             product=product,
             comment="")

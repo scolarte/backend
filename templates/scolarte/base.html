@@ -63,7 +63,7 @@
                                     <i class="text-success fa fa-circle"></i>
                                 </div>
                                 <div class="avatar__content">
-                                    <img src="{{ user.profile.image.url }}">
+                                    <img src="{{ user.profile.photo.url }}">
                                 </div>
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                                     <i class="text-success fa fa-circle"></i>
                                 </div>
                                 <div class="avatar__content">
-                                    <img src="{{ user.profile.image.url }}">
+                                    <img src="{{ user.profile.photo.url }}">
                                 </div>
                             </div>
                         </div>
@@ -137,8 +137,8 @@
                         </a>
                         <ul class="sidebar-submenu">
                             <li class="sidebar-submenu__entry">
-                                <a class="sidebar-submenu__entry__link" href="/">
-                                    <span>Listas</span>
+                                <a class="sidebar-submenu__entry__link" href="{% url 'lists:my_lists' %}">
+                                    <span>Mis listas</span>
                                 </a>
                             </li>
                             <li class="sidebar-submenu__entry active">
