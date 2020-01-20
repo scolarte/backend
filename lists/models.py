@@ -1,7 +1,7 @@
 from django.db import models
 from products.models import Product
 from roles.models import User
-
+import uuid
 
 # Create your models here.
 
@@ -33,11 +33,10 @@ class List(models.Model):
         ('entregada', 'Entregada'),
         ('cancelada', 'Cancelada')
     )
-    lista_id = models.CharField(max_length=100)
-    name = models.CharField(max_length=100)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    school = models.OneToOneField(School, on_delete=models.CASCADE)
-    status = models.CharField(max_length=20, choices=LISTA_STATUS, default='recibida_pagada')
+    name = models.CharField(max_length=100, default='Lista anónima')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    school = models.OneToOneField(School, on_delete=models.CASCADE, null=True, blank=True)
+    status = models.CharField(max_length=20, choices=LISTA_STATUS, default='recibida_no_pagada')
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 

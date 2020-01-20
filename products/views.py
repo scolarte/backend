@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from .models import *
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
+from django.views.generic import TemplateView, ListView
 
 # Create your views here.
 
@@ -37,34 +40,31 @@ def all_prod_by_category(request, c_slug=None):
 
 
 
-
-
-
 class ProductsListView(ListView):
 
     model = Product
-    template_name = "shop/catalogo.html"
+    template_name = "scolarte/productos/productos.html"
     paginate_by = 9
 
     def get_queryset(self):
         filter_val = self.request.GET.get('filtro', 'todas')
         filter_val = filter_val.lower()
-        order = self.request.GET.get('orderby', 'created')
+        order = self.request.GET.get('orderby', 'created_at')
         if filter_val == "todas":
-            context = UnitaryProduct.objects.all().filter(available=True).order_by('-created')
+            context = Product.objects.all().filter(available=True).order_by('-created_at')
             return context
         else:    
-            context = UnitaryProduct.objects.filter(
-                subcategory2=filter_val,
-            ).filter(available=True).order_by('-created')
+            context = Product.objects.filter(
+                category=filter_val,
+            ).filter(available=True).order_by('-created_at')
             return context
 
     def get_context_data(self, **kwargs):
-        context = super(CatalogoListView, self).get_context_data(**kwargs)
+        context = super(ProductsListView, self).get_context_data(**kwargs)
         context['filtro'] = self.request.GET.get('filtro', 'todas')
-        context['orderby'] = self.request.GET.get('orderby', 'created')
-        context['category'] = Category.objects.get(slug="catalogo")
-        context['total_stickers'] = UnitaryProduct.objects.filter(available=True).count()
-        context['product_count'] = self.get_queryset().count()
+        context['orderby'] = self.request.GET.get('orderby', 'created_at')
+        context['category'] = Category.objects.get(slug="cuadernos")
+        context['total_products'] = Product.objects.filter(available=True).count()
+        context['product_count_by_category'] = self.get_queryset().count()
         
         return context

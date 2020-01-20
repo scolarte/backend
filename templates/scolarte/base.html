@@ -12,16 +12,16 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/apps.css' %}">
   <!-- Prio Css -->
 
   <!-- Prio Js -->
   <script src="{% static 'libs/jquery/jquery.js' %}"></script>
   <script src="{% static 'js/colors.js' %}"></script>
   <script src="{% static 'js/side-menu.js' %}"></script>
-  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <!-- <script src="{% static 'js/bootstrap.min.js' %}"></script> -->
   <script src="{% static 'js/popper.min.js' %}"></script>
-  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <!-- <script src="{% static 'js/bootstrap.min.js' %}"></script> -->
   <script src="{% static 'js/layout.js' %}"></script>
 </head>
 
@@ -142,7 +142,7 @@
                                 </a>
                             </li>
                             <li class="sidebar-submenu__entry active">
-                                <a class="sidebar-submenu__entry__link" href="/">
+                                <a class="sidebar-submenu__entry__link" href="{% url 'products:all_products' %}">
                                     <span>Productos</span>
                                 </a>
                             </li>                            
@@ -389,7 +389,7 @@
 <script>
 Dashboard.Layout.init($, window, document);
 </script>
-<script src="{% static 'libs/popper.js/popper.min.js' %}"></script>
+<script src="{% static 'libs/popper/popper.min.js' %}"></script>
 <script src="{% static 'libs/holder/holder.min.js' %}"></script>
 <!-- Own Js -->  
 <script src="{% static 'js/init.js' %}"></script>

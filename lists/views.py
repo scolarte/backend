@@ -4,6 +4,9 @@ from products.models import Product, ProductItem
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from decimal import Decimal
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+
 
 # Create your views here.
 ### List Details ###
@@ -23,7 +26,7 @@ def list_details(request, lista_id, total=0, counter=0):
         print("ID LISTA: ", lista.id)
     except ObjectDoesNotExist:
         print("Entra al Except")
-        lista = List.objects.create(lista_id="Random")
+        lista = List.objects.create(name="Lista anónima")
       
     list_items = ListItem.objects.filter(lista=lista)
     print("# item lists: ", len(list_items))
@@ -37,15 +40,20 @@ def list_details(request, lista_id, total=0, counter=0):
 
 
 
-
+@csrf_exempt
 def add_product_to_list(request):
 
-    lista_id = request.COOKIES.get('lista_id')
-    if lista_id:
-        lista = List.objects.get(id=lista_id)
-    else:
-        lista = List.objects.create(lista_id="Random")
-        lista_id = lista.id
+    print("Enters Add Product to List")
+
+    # lista_id = request.COOKIES.get('lista_id')
+    # if lista_id:
+    #     lista = List.objects.get(id=lista_id)
+    # else:
+    #     lista = List.objects.create(name="Lista anónima",
+    #     user=request.user)
+    #     lista_id = lista.id
+
+    lista = List.objects.get(id=1)
 
     c_slug = request.POST.get('c_slug')
     s_slug = request.POST.get('s_slug')
@@ -63,16 +71,11 @@ def add_product_to_list(request):
             product=product,
             comment="")
        
+        # response.set_cookie("lista_id", lista_id)
+        # response.set_cookie("product_item_id", product_item.id)
+        #return response
+        return HttpResponse("post request success")
         
-        product_items_count = ProductItem.objects.filter(cart_id=cart_id).count()
-
-        total_items = product_items_count
-
-        response = JsonResponse({'list_items_counter':total_items})
-        response.set_cookie("lista_id", lista_id)
-        response.set_cookie("product_item_id", product_item.id)
-
-        return response
 
     except Exception as e:
         raise e
