@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import *
+from lists.models import List
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView
@@ -66,5 +67,6 @@ class ProductsListView(ListView):
         context['category'] = Category.objects.get(slug="cuadernos")
         context['total_products'] = Product.objects.filter(available=True).count()
         context['product_count_by_category'] = self.get_queryset().count()
+        context['users_lists'] = List.objects.filter(user=self.request.user)
         
         return context

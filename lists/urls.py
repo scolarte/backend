@@ -10,6 +10,7 @@ app_name = "lists"
 urlpatterns = [
     path('', views.AllLists.as_view(), name='my_lists'),
     path('agregar-producto/', views.add_product_to_list, name='add_product_to_list'),
+    path('mis-listas/', views.update_lists_count, name='update_lists_count'),
     path('lista-detalles/<int:lista_id>/', views.list_details, name='list_details'),
 ]
 

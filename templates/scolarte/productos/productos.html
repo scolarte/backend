@@ -96,7 +96,7 @@
                         <h5 class="card-title">{{ product.short_name }}</h5>
                         <p class="card-text"><b>Precio unitario: S/ {{ product.price }}</b></p>
                         <label for="tentacles"><b>Cantidad: </b></label>
-                        <select class="product_quantity_for_{{ product.sku }}">
+                        <select class="select-list-to-add-product">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -118,7 +118,7 @@
 
 
 
-                
+
 
 
                 <!-- #########################  -->
@@ -147,9 +147,9 @@
 
             <!-- Ends Modal -->
 
-            <!-- New Added Product Modal-->
+            <!-- Confirmacion: Se agregó producto -->
 
-            <div class="modal fade" id="AddedProduct{{ product.sku }}" tabindex="-1" role="dialog"
+            <div class="modal fade" id="ConfirmacionProductoAgregado{{ product.sku }}" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -164,7 +164,7 @@
                                             <th colspan="2" class="added-to-cart-titles">Producto: <br></th>
                                             <th class="added-to-cart-text">{{ product.short_name }}<br></th>
                                         </tr>
-                                       
+
                                     </table>
                                 </div>
                                 <div class="col-md-6">
@@ -178,17 +178,53 @@
                     </div>
                 </div>
             </div>
-            
+
+            <!-- Listas Dropdown -->
+
+            <div class="modal fade" id="SelectListtoAddProduct{{ product.sku }}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <label for="pet-select">Elegir lista:</label>
+                            <select name="listas" id="listas-de-usuario">
+                                {% include 'scolarte/listas/listas-de-usuario.html' %}
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="agregarProducto{{ product.id }}" type="button" class="btn btn-secondary"
+                                data-dismiss="">Agregar producto</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <script>
                 $(".add-product-btn-for-{{ product.sku }}").click(function () {
-                    alert("Entro al POST");
+                    $( "#listas-de-usuario" ).load( "{% url 'lists:update_lists_count' %}", function() {
+                        $("#SelectListtoAddProduct{{ product.sku }}").modal('show');
+                    });
+                });
+            </script>
+
+            <script>
+                var lista_id;
+                $('#listas-de-usuario').change(function () {
+                    lista_id = $(this).find('option:selected').val();
+                });
+            </script>
+
+            <script>
+                $("#agregarProducto{{ product.id }}").click(function () {
                     $.post("{% url 'lists:add_product_to_list' %}", {
                         c_slug: "{{ product.category.slug }}",
                         s_slug: "{{ product.subcategory.slug }}",
                         product_slug: "{{ product.slug }}",
-                    }).done(function (response) {
-                        $("#AddedProduct{{ product.sku }}").modal('show');
+                        lista_id: lista_id,
                     });
+                    $("#SelectListtoAddProduct{{ product.sku }}").modal('hide');
+                    $("#ConfirmacionProductoAgregado{{ product.sku }}").modal('show');
                 });
             </script>
 

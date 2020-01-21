@@ -1,0 +1,8 @@
+<option value="">--Eliga una de sus listas--</option>
+{% if mi_primera_lista %}
+<option value="{{ mi_primera_lista.id }}">{{ mi_primera_lista.id }} : {{ mi_primera_lista.name }}</option>
+{% else %}
+{% for lista in listas %}
+    <option value="{{ lista.id }}">{{ lista.id }} : {{ lista.name }}</option>
+{% endfor %}
+{% endif %}

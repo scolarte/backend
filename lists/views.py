@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from decimal import Decimal
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from .forms import ListForm
 
 
 # Create your views here.
@@ -23,13 +24,10 @@ def list_details(request, lista_id, total=0, counter=0):
     try:
         #lista_id = request.COOKIES.get('lista_id')
         lista = List.objects.get(id=lista_id)
-        print("ID LISTA: ", lista.id)
     except ObjectDoesNotExist:
-        print("Entra al Except")
         lista = List.objects.create(name="Lista anónima")
       
     list_items = ListItem.objects.filter(lista=lista)
-    print("# item lists: ", len(list_items))
     
     for list_item in list_items:
         total += Decimal(list_item.sub_total())
@@ -45,15 +43,17 @@ def add_product_to_list(request):
 
     print("Enters Add Product to List")
 
-    # lista_id = request.COOKIES.get('lista_id')
-    # if lista_id:
-    #     lista = List.objects.get(id=lista_id)
-    # else:
-    #     lista = List.objects.create(name="Lista anónima",
-    #     user=request.user)
-    #     lista_id = lista.id
-
-    lista = List.objects.get(id=1)
+    lista_id = request.POST.get('lista_id')
+    if lista_id:
+        try:
+            lista = List.objects.get(id=lista_id)
+        except:
+            lista = List.objects.create(name="Lista anónima",
+        user=request.user)
+              
+    else:
+        lista = List.objects.create(name="Lista anónima",
+        user=request.user)
 
     c_slug = request.POST.get('c_slug')
     s_slug = request.POST.get('s_slug')
@@ -89,7 +89,7 @@ class AllLists(LoginRequiredMixin, TemplateView):
     redirect_field_name = 'redirect_to'
 
     def get_context_data(self, request, **kwargs): 
-        context = kwargs 
+        context = kwargs
         context['listas'] = List.objects.filter(user=request.user)
         return context
 
@@ -99,3 +99,29 @@ class AllLists(LoginRequiredMixin, TemplateView):
     def get(self, request, *args, **kwargs): 
         context = self.get_context_data(request, **kwargs)
         return self.render_to_response(context)  
+
+
+@csrf_exempt
+def update_lists_count(request):
+    listas_de_usuario = List.objects.filter(user=request.user)
+    if not listas_de_usuario:
+        mi_primera_lista = List.objects.create(name="Mi primera lista",
+        user=request.user)
+        return render(request, 'scolarte/listas/listas-de-usuario.html', {'mi_primera_lista':mi_primera_lista})
+    elif listas_de_usuario:
+        return render(request, 'scolarte/listas/listas-de-usuario.html', {'listas':listas_de_usuario})
+
+
+
+
+@csrf_exempt
+def create_my_first_list_or_pass(request):
+    user_lists = List.objects.filter(user=request.user)
+    if not user_lists:
+        print("No se encontró listas")
+        lista = List.objects.create(name="Mi primera lista",
+        user=request.user)
+        return HttpResponse("Se creo primera lista de usuario")
+    else:
+        print("Se encontró listas")
+        return HttpResponse("Ya existen lista(s) pertenecientes al usuario")
