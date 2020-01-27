@@ -35,6 +35,7 @@ class SubCategory(models.Model):
 
 
 class Brand(models.Model):    
+    #category = models.ForeignKey(Category, on_delete=models.CASCADE)
     system_id = models.CharField(max_length=100, unique=True)
     name = models.CharField(max_length=250, unique=True)
     slug = models.SlugField(max_length=250, unique=True)
@@ -57,7 +58,7 @@ class Product(models.Model):
     large_name = models.CharField(max_length=250, unique=True)
     short_name = models.CharField(max_length=250, unique=True)
     slug = models.SlugField(max_length=250, unique=True)
-    sku = models.CharField(max_length=10, unique=True)
+    sku = models.CharField(max_length=20, unique=True, blank=True, null=True)
     description = models.TextField(blank=True)
     price = models.DecimalField(default=0.00, max_digits=6, decimal_places=2, null=True, blank=True)
     stock = models.IntegerField(default=100, null=True, blank=True)

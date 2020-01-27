@@ -4,7 +4,19 @@
 
 {% block content %}
 
-<h1>Mi lista: {{ lista.name }}</h1>
+<h1>Mi lista: {{ lista.name }}</h1> 
+<h3>Total: $ {{ list_total }}</h3>
+
+
+<div class="row">
+    <form action="{% url 'lists:list_details' lista.id %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+
 
 <div class="row">
     {% for list_item in list_items %}
@@ -14,6 +26,8 @@
               <h5 class="card-title">{{ list_item.product.short_name }}</h5>
               <p class="card-title">$ {{ list_item.product.price }}</p>
               <p class="card-text">{{ list_item.description }}</p>
+              <a href="{% url 'lists:full_remove_listitem' list_item.id %}" class="custom_icon"><i
+                class="fas fa-trash-alt custom_icon"></i></a>
             </div>
         </div> 
     {% endfor %}
