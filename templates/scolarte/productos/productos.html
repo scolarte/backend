@@ -1,4 +1,5 @@
 {% extends 'scolarte/base.html' %}
+{% load static %} 
 
 {% load crispy_forms_tags %}
 
@@ -8,9 +9,9 @@
 <div class="container">
     <div class="margin-bottom5 margin-top10">
         {% if selected_category %}
-            <h2> Catálogo de productos de la categoría {{ selected_category }}</h2>
+        <h2> Catálogo de productos de la categoría {{ selected_category }}</h2>
         {% else %}
-            <h2> Catálogo de productos</h2>
+        <h2> Catálogo de productos</h2>
         {% endif %}
         <span>Utiliza el filtro por categoría y la páginación del lado derecho.</span>
         <p>Agrega todos los que quieras a tu carrito de compras que nosotros los enviaremos hasta tu domicilio.</p>
@@ -89,25 +90,20 @@
             <div class="col-auto mb-3">
                 <div class="card" style="width: 18rem;">
                     <a class="btn" data-toggle="modal" href="#FullImage{{ product.id }}">
-                        <!-- {% if product.image.url %} -->
-                        <img class="card-img-top" src="{{ product.image.url }}" alt="Card image cap">
-                        <!-- {% endif %} -->
+                        {% if product.image %}
+                            <img class="card-img-top" src="{{ product.image.url }}" width="20%" height="100%">
+                        {% else %}
+                        <img src="{% static 'images/product_images/product_placeholder.jpg' %}" width="200px" height="200px">
+                        {% endif %}
                     </a>
                     <div class="card-body">
                         <h5 class="card-title">{{ product.short_name }}</h5>
                         <p class="card-title">Categoría: {{ product.category.name }}</p>
                         <p class="card-text"><b>Precio unitario: S/ {{ product.price }}</b></p>
                         <label for="tentacles"><b>Cantidad: </b></label>
-                        <select class="select-list-to-add-product">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-
-                        <a id="SelectProduct{{ product.id }}"
-                            class="btn btn-primary text-white"><i
+                        <input id="ProductQuantityForProduct{{ product.id }}" type="number" step="1" value="1"
+                            pattern="\d+" min="1" max="99" />
+                        <a id="SelectProduct{{ product.id }}" class="btn btn-primary text-white"><i
                                 class="fas fa-shopping-cart margin-right5"></i>Agregar
                             al carrito</a>
                     </div>
@@ -150,7 +146,9 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-body">
+                            {% if product.image %}
                             <img class="card-img-top" src="{{ product.image.url }}" alt="Card image cap">
+                            {% endif %}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -182,7 +180,11 @@
                                     </table>
                                 </div>
                                 <div class="col-md-6">
+                                    {% if product.image %}
                                     <img class="card-img-top" src="{{ product.image.url }}" width="20%" height="100%">
+                                    {% else %}
+                                    <img src="{% static 'images/product_images/product_placeholder.jpg' %}" width="200px" height="200px">
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -208,13 +210,18 @@
                     lista_id = $(this).find('option:selected').val();
                 });
             </script>
+
+
             <!-- Add producto to list -->
             <script>
                 $("#addProducttoList{{ product.id }}").click(function () {
+                    var quantity = $('#ProductQuantityForProduct{{ product.id }}').val();
+
                     $.post("{% url 'lists:add_product_to_list' %}", {
                         c_slug: "{{ product.category.slug }}",
                         s_slug: "{{ product.subcategory.slug }}",
                         product_slug: "{{ product.slug }}",
+                        quantity: quantity,
                         lista_id: lista_id,
                     });
                     $("#SelectListtoAddProduct{{ product.id }}").modal('hide');

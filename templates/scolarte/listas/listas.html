@@ -38,27 +38,33 @@ Scolarte
     </div>
 
     <div class="row mt-5">
-        {% for lista in listas %}
+        
         <!-- START CONTENT -->
-        <div class="card-deck">
-            <a href="{% url 'lists:list_details' lista.id %}">
-                <div class="card">
-                    <div class="card-body">
-                        <p>{{ lista.school.name }}</p>
-                        <h5 class="card-title">{{ lista.name }}<i class="fa fa-pencil margin-right3"
-                                aria-hidden="true"></i></h5>
-
-                        <a href="{% url 'lists:full_remove_list' lista.id %}" class="custom_icon"><i
-                                class="fas fa-trash-alt custom_icon"></i></a>
-
-                        <p class="card-text"><small class="text-muted">Última modificación:
-                                {{ lista.modified_at }}</small></p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <!-- END Card Counter -->
-        {% endfor %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Lista</th>
+                    <th>Escuela</th>
+                    <th>Creada</th>
+                    <th>Eliminar</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lista in listas %}
+                <tr>
+                    <td>{{ lista.name }}<a href="{% url 'lists:list_details' lista.id %}"> <i
+                                class="fa fa-pencil margin-right3" aria-hidden="true"></i></a></td>
+                    <td>{% if not lista.school.name %} No escuela {% else %} {{ lista.school.name }} {% endif %}</td>
+                    <td><small class="text-muted">Última modificación:
+                            {{ lista.modified_at }}</td>
+                    <td class="text-center"><a href="{% url 'lists:full_remove_list' lista.id %}" class="custom_icon"><i
+                                class="fas fa-trash-alt custom_icon"></i></a></td>
+                    <td>{{ lista.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
 

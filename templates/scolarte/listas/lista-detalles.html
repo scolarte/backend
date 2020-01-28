@@ -24,7 +24,9 @@
         <div class="card margin-right3" style="width: 14rem;">
             <div class="card-body">
               <h5 class="card-title">{{ list_item.product.short_name }}</h5>
-              <p class="card-title">$ {{ list_item.product.price }}</p>
+              <p class="card-title">Precio unitario: $ {{ list_item.product.price }}</p>
+              <p class="card-title">Cantidad: {{ list_item.quantity }}</p>
+              <p class="card-title">Subtotal: $ {{ list_item.sub_total }}</p>
               <p class="card-text">{{ list_item.description }}</p>
               <a href="{% url 'lists:full_remove_listitem' list_item.id %}" class="custom_icon"><i
                 class="fas fa-trash-alt custom_icon"></i></a>

@@ -19,5 +19,21 @@ class ListForm(ModelForm):
     class Meta:
         model = List
         exclude = ["user"]
-        fields = ('name', 'school')
+        fields = ('name', 'school', 'status')
+
+
+class ListFormAllLists(ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super(ListFormAllLists, self).__init__(*args, **kwargs)
+        #self.fields['school'] = forms.ChoiceField(label='Escuela', choices=self.List.school)
+        #self.fields['school'].label_from_instance = "Escuela"
+    
+    name = forms.CharField(label='Nombre de la lista', max_length=100, required=True)
+    school = forms.ModelChoiceField(queryset=School.objects, empty_label="Eliga una escuela", label="Escuela", required=False)
+
+    class Meta:
+        model = List
+        exclude = ["user"]
+        fields = ('name', 'school')        
 

@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from decimal import Decimal
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import ListForm
+from .forms import ListForm, ListFormAllLists
 from django.urls import reverse_lazy, reverse
 from roles.models import User
 import csv, io
@@ -58,9 +58,9 @@ class ListDetailsFormView(LoginRequiredMixin, UpdateView):
         context['list_total'] = list_total
         return context
 
-    def form_valid(self, form):
-        #form.instance.name = self.request.name
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     form.instance.school = self.request.school
+    #     return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('lists:list_details', kwargs={'lista_id': self.object.pk})
@@ -93,6 +93,14 @@ def add_product_to_list(request):
     c_slug = request.POST.get('c_slug')
     s_slug = request.POST.get('s_slug')
     product_slug = request.POST.get('product_slug')
+    quantity = request.POST.get('quantity')
+
+    print("##########################")
+    if quantity is None:
+        print("La cantidad es: NONE")
+    else:    
+        print("##########################")
+        print("La cantidad es: ", quantity)
     
     try:
 
@@ -104,6 +112,7 @@ def add_product_to_list(request):
         list_item = ListItem.objects.create(
             lista=lista,
             product=product,
+            quantity=quantity,
             comment="")
        
         # response.set_cookie("lista_id", lista_id)
@@ -119,7 +128,7 @@ def add_product_to_list(request):
 
 
 class ListFormView(LoginRequiredMixin, FormView):
-    form_class = ListForm
+    form_class = ListFormAllLists
     template_name = "scolarte/listas/listas.html"
     success_url = reverse_lazy('lists:my_lists')
 
