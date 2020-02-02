@@ -26,7 +26,6 @@ INSTALLED_APPS = [
     'roles',
     'lists',
     'products',
-    'brands',
     'crispy_forms',
 ]
 
@@ -128,7 +127,6 @@ AUTH_USER_MODEL = 'roles.User'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-
 LOGIN_URL = 'core:login'
 
 LOGOUT_URL = 'core:logout'
@@ -136,3 +134,4 @@ LOGOUT_URL = 'core:logout'
 LOGIN_REDIRECT_URL = 'core:home'
 
 LOGOUT_REDIRECT_URL = 'core:home'
+

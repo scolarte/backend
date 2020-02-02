@@ -1,0 +1,71 @@
+{% extends 'scolarte/base.html' %}
+{% load static %}
+{% block metadescription %}
+{% if category %}
+{{ category.description|truncatewords:155 }}
+{% else %}
+¡Bienvenidos a Stickers Gallito Perú!
+{% endif %}
+{% endblock %}
+{% block title %}
+{% if category %}
+{{ category.name }}
+{% else %}
+Scolarte
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12">
+            <!-- START HEADER Content -->
+            <h1 class="display-4 mb-3 mt-2">
+                Mis Listas
+            </h1>
+            <!-- END HEADER Content -->
+        </div>
+    </div>
+
+    <div class="row">
+        <h1>Crear una lista nueva</h1>
+        <form action="{% url 'lists:my_lists' %}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Crear">
+        </form>
+    </div>
+
+    <div class="row mt-5">
+        
+        <!-- START CONTENT -->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Lista</th>
+                    <th>Escuela</th>
+                    <th>Creada</th>
+                    <th>Eliminar</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lista in listas %}
+                <tr>
+                    <td>{{ lista.name }}<a href="{% url 'lists:list_details' lista.id %}"> <i
+                                class="fa fa-pencil margin-right3" aria-hidden="true"></i></a></td>
+                    <td>{% if not lista.school.name %} No escuela {% else %} {{ lista.school.name }} {% endif %}</td>
+                    <td><small class="text-muted">Última modificación:
+                            {{ lista.modified_at }}</td>
+                    <td class="text-center"><a href="{% url 'lists:full_remove_list' lista.id %}" class="custom_icon"><i
+                                class="fas fa-trash-alt custom_icon"></i></a></td>
+                    <td>{{ lista.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    {% endblock %}

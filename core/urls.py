@@ -11,5 +11,4 @@ urlpatterns = [
     path('', views.ScolarteHome.as_view(), name='home'),
     path("salir/", LogoutView.as_view(), name="logout"),
     path("ingresar/", LoginView.as_view(template_name='scolarte/registration/login.html'), name="login"),
-    
 ]

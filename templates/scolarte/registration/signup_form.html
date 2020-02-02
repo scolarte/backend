@@ -18,38 +18,13 @@
             {% csrf_token %}
             <table>
                 <tr>
-                    <th>{{ client_form.first_name.label_tag }}</th>
-                    <td>
-                        {{ client_form.first_name.errors }}
-                        {{ client_form.first_name }}
-                    </td>
-                </tr>
-                <tr>
-                    <th>{{ client_form.last_name.label_tag }}</th>
-                    <td>
-                        {{ client_form.last_name.errors }}
-                        {{ client_form.last_name }}
-                    </td>
-                </tr>
-                <tr>
                     <th>{{ client_form.username.label_tag }}</th>
                     <td>
                         {{ client_form.username.errors }}
                         {{ client_form.username }}
                     </td>
                 </tr>
-                <tr>
-                    <th>{{ client_profile_form.cedula_ruc.label_tag }}</th>
-                    <td>
-                        {{ client_profile_form.cedula_ruc.errors }}
-                        {{ client_profile_form.cedula_ruc }}
-                    </td>
-                </tr>
-                <tr>
-                    <th>{{ client_profile_form.birthdate.label_tag }}</th>
-                    <td>{{ client_profile_form.birthdate }}</td>
-                </tr>
-                <tr>
+                <tr class="margin-bottom3">
                     <th>{{ client_form.email.label_tag }}</th>
                     <td>{{ client_form.email }}</td>
                 </tr>
@@ -71,14 +46,11 @@
                     <th>{{ client_form.password2.label_tag }}</th>
                     <td>
                         {{ client_form.password2 }}
-
                     </td>
                 </tr>
-
             </table>
 
     </div>
-
 
     <div class="col-md-6">
 
@@ -86,7 +58,7 @@
 
             
 
-            <tr>
+            <!-- <tr>
                 <th>{{ client_profile_form.mobile.label_tag }}</th>
                 <td>
                     {{ client_profile_form.mobile.errors }}
@@ -152,13 +124,13 @@
                     {{ client_profile_form.shipping_parroquia.errors }}
                     {{ client_profile_form.shipping_parroquia }}
                 </td>
-            </tr>
-            <tr>
+            </tr> -->
+            <tr class="">
                 <th>
                     <p></p>
                 </th>
                 <td>
-                    <button class="btn btn-secondary" type="submit">Registrarse</button>
+                    <button class="btn btn-secondary margin-top10" type="submit">Registrarse</button>
                 </td>
             </tr>
 

@@ -1,0 +1,42 @@
+{% extends 'scolarte/base.html' %}
+{% load static %}
+{% block metadescription %}
+{% if category %}
+{{ category.description|truncatewords:155 }}
+{% else %}
+¡Bienvenidos a Stickers Gallito Perú!
+{% endif %}
+{% endblock %}
+{% block title %}
+{% if category %}
+{{ category.name }}
+{% else %}
+Scolarte
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="row">
+    {% for category in categories %}
+        {% if forloop.counter0|divisibleby:3 and not forloop.first %}<div class="w-100"></div>{% endif %}
+        <div class="card margin-right3" style="width: 14rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{ category.name }}</h5>
+              <p class="card-text">{{ category.description }}</p>
+              <a href="{% url 'core:products_by_category' category.slug %}" class="btn btn-primary">Ver productos</a>
+            </div>
+        </div> 
+    {% endfor %}
+</div>
+
+
+
+
+
+
+
+
+{% endblock %}

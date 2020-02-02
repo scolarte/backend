@@ -1,81 +1,411 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}Scolarte{% endblock %}</title>
-    <link rel="icon" href="{% static 'img/favicon.png' %}">
-    <link href="https://fonts.googleapis.com/css?family=Clicker+Script" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontello-2f186091/css/fontello.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <link href="https://fonts.googleapis.com/css?family=Schoolbell&display=swap" rel="stylesheet">
-    {% if user.is_authenticated and user.is_seller %}
-      <link rel="stylesheet" type="text/css" href="{% static 'css/teachers.css' %}">
-    {% else %}
-      <link rel="stylesheet" type="text/css" href="{% static 'css/students.css' %}">
-    {% endif %}
-  </head>
-  <body>
-    <div class="container my-4">
-      <div class="row justify-content-center">
-        <div class="col-md-10 col-sm-12">
-          <div class="row">
-            <div class="col-6">
-              <h1 class="logo">
-                <a href="{% url 'core:home' %}">
-                  Scolarte
-                  {% if user.is_authenticated %}
-                    {% if user.is_seller %}
-                      <span class="icon-feather" data-toggle="tooltip" data-placement="right" title="Teacher profile"></span>
-                    {% else %}
-                      <span class="icon-graduation-cap" data-toggle="tooltip" data-placement="right" title="Student profile"></span>
-                    {% endif %}
-                  {% endif %}
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{% block title %}Escolarte{% endblock %}</title>
+
+  <!-- Bootstrap  and dependencies CSS -->
+  <script src="https://kit.fontawesome.com/8b3cda2e27.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/apps.css' %}">
+  
+  <!-- Prio Css -->
+
+  <!-- Prio Js -->
+  <script src="{% static 'libs/jquery/jquery.js' %}"></script>
+  <script src="{% static 'js/colors.js' %}"></script>
+  <script src="{% static 'js/side-menu.js' %}"></script>
+  <script src="{% static 'js/bootstrap.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/layout.js' %}"></script>
+</head>
+
+<body class="bg-gray-100"> 
+   <!-- Wrapper -->
+   <div class="layout layout--theme--light--primary">
+        
+    <div class="layout__sidebar">
+            
+        <div class="sidebar sidebar--animations-enabled sidebar--collapsed sidebar--animate-entry-complete">
+            <div class="sidebar__close">
+                <a href="javascript:;" class="action--sidebar-trigger">
+                    <i class="fa fa-times-circle fa-fw"></i>
                 </a>
-              </h1>
             </div>
-            <div class="col-6 text-right">
-              {% if user.is_authenticated %}
-                <p class="pt-3">Usuario: <strong>{{ user.username }}</strong>. <a href="{% url 'core:logout' %}">Salir</a>.</p>
-              {% else %}
-                <a href="{% url 'core:login' %}" class="btn btn-light" role="button">Ingresar</a>
-                <a href="{% url 'roles:signup' %}" class="btn btn-primary" role="button">Registrarse</a>
-              {% endif %}
-            </div>
-          </div>
-          <div class="card mb-3 padding5">
-            <div class="card-body">
-              {% for message in messages %}
-                <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
-                  {{ message }}
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+            <!-- START Sidebar TOP FIXED ALWAYS  -->
+            <div class="sidebar__section sidebar__hide-slim" style="">
+                
+                            <!-- START Logo TOP FIXED #1 -->
+                <div>
+                    <a class="h4 fw-600 sidebar__brand" href="/">
+                        Escolarte
+                    </a>
                 </div>
-              {% endfor %}
-              {% block content %}
-              {% endblock %}
+                <!-- END Logo TOP FIXED #1 -->
+                
             </div>
-          </div>
-          <footer>
-            <a href="#">©</a>
-            /
-            <a href="">Read more about this example</a>
-            /
-            <a href="">SAC</a>
-          </footer>
-        </div>
+            <!-- END Sidebar TOP FIXED ALWAYS  -->
+            <div class="sidebar__mobile-fluid">
+                <!-- START Sidebar TOP -->
+                
+                            <!-- START Sidebar TOP #1 -->
+                <div class="sidebar__section sidebar__hide-slim pt-0" style="">
+                    <a href="/" class="d-block">
+                        <div class="avatar-image avatar-image--loaded">
+                            <div class="avatar avatar--lg avatar-image__image">
+                                <div class="avatar__icon avatar__icon--stack">
+                                    <i class="text-white fa fa-circle"></i>
+                                    <i class="text-success fa fa-circle"></i>
+                                </div>
+                                <div class="avatar__content">
+                                    <img src="{{ user.profile.photo.url }}">
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <span class="d-flex">
+                        <div class="dropdown">
+                            <button class="btn-profile btn btn-link sidebar__link dropdown-toggle no-caret pl-0 pb-0 mb-0 h6" type="button" data-toggle="dropdown">
+                                <span>{{ user.get_full_name|default:user.username }}</span>
+                                <i class="fa fa-angle-down fa-fw sidebar__link--muted"></i>
+                            </button>                                        
+                            <!-- START Dropdown Profile  -->
+                            <div class="dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
+                                <h6 class="dropdown-header">
+                                    C. Malkovich
+                                </h6>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/jquery/airframe/apps/profile-details.html">
+                                    Mi perfil
+                                </a>
+                                <a class="dropdown-item" href="/jquery/airframe/apps/account-settings.html">
+                                    Account Settings
+                                </a>
+                                <a class="dropdown-item" href="/jquery/airframe/apps/faq.html">
+                                    Contáctenos
+                                </a>
+                                <a class="dropdown-item" href="/jquery/airframe/apps/billing-edit.html">
+                                    Pagos
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/
+                                    <i class="fa mr-1 fa-sign-out text-muted"></i> 
+                                    Sign Out
+                                </a>
+                            </div>
+                            <!-- END Dropdown Profile  -->
+                        </div>
+                    </span>
+                    <div class="sidebar__link--muted small">
+                        <span> {{ user.profile.provincia }}</span>
+                    </div>
+                </div>
+                <!-- START Slim Content -->
+                <div class="sidebar__section sidebar__show-slim">
+                    <a href="/" class="d-block">
+                        <div class="avatar-image avatar-image--loaded">
+                            <div class="avatar avatar--sm avatar-image__image">
+                                <div class="avatar__icon avatar__icon--stack">
+                                    <i class="text-white fa fa-circle"></i>
+                                    <i class="text-success fa fa-circle"></i>
+                                </div>
+                                <div class="avatar__content">
+                                    <img src="{{ user.profile.photo.url }}">
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- END Slim Content -->
+                <!-- END Sidebar TOP #1 -->
+                
+                <!-- END Sidebar TOP -->
+                <!-- START Sidebar MIDDLE -->
+                <div class="sidebar__section sidebar__section--fluid sidebar__section--cover" style="opacity: 1;">
+                    
+                                <!-- START Sidebar: Full -->
+                <ul class="sidebar-menu">
+                    <li class="sidebar-menu__entry sidebar-menu__entry--nested active open" style="">
+                        <a href="javascript:;" class="sidebar-menu__entry__link">
+                            <i class="fa fa-fw fa-home sidebar-menu__entry__icon"></i>
+                            <span>Tablero</span>
+                        </a>
+                        <ul class="sidebar-submenu">
+                            <li class="sidebar-submenu__entry">
+                                <a class="sidebar-submenu__entry__link" href="{% url 'lists:my_lists' %}">
+                                    <span>Mis listas</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-submenu__entry active">
+                                <a class="sidebar-submenu__entry__link" href="{% url 'products:all_products' %}">
+                                    <span>Productos</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-submenu__entry active">
+                                <a class="sidebar-submenu__entry__link" href="{% url 'products:all_products' %}">
+                                    <span>Escuelas</span>
+                                </a>
+                            </li>                             
+                        </ul>
+                    </li>
+                </ul>
+                <!-- END Sidebar: Full -->
+                    
+                </div>
+                <!-- END Sidebar MIDDLE -->
+                <!-- START Sidebar BOTTOM -->
+                                                            
+                <!-- Init Version Selector -->
+                <script>
+                    $(function() {
+                        // Init Current Version Holder
+                        Dashboard.VersionSelector.initVersionWidget(
+                            "jQuery",
+                            "Airframe",
+                            $("#version-dropdown-trigger"),
+                            function(dashboardDef, $container) {
+                                $container.removeClass("disabled");
+                            }
+                        );
+                
+                        // Init Version Dropdown
+                        Dashboard.VersionSelector.initVersionsDropdown(
+                            "Airframe",
+                            $(".version-dropdown"),
+                            '<a class="dropdown-item d-flex" data-version="link">' +
+                            '   <span>' +
+                            '       <span data-version="label"></span> <span data-version="number"></span>' +
+                            '       <br />' +
+                            '       <span class="small" data-version="date"></span>' +
+                            '   </span>' +
+                            '</a>',
+                            function(dashboardDef, $itemElement) {
+                                // If version is active
+                                if (dashboardDef.dashboardName === "Airframe" && dashboardDef.label === "jQuery") {
+                                    $itemElement
+                                        .addClass("active")
+                                        .append('<i class="fa fa-check fa-fw pl-2 align-self-center text-success ml-auto"></i>');
+                                }
+                            }
+                        );
+                    });
+                </script>
+        <div class="sidebar__section sidebar__hide-slim" style=""> 
+        {% include 'scolarte/footer.html' %}
       </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-      $(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-      })
-    </script>
-  </body>
+      <!-- END Sidebar BOTTOM -->
+  </div>
+</div>
+
+<script>
+  Dashboard.Sidebar.init($, window);
+</script>
+</div>
+
+<div class="layout__wrap">
+<!-- NAVBAR LAYOUT -->
+<div class="layout__navbar">            
+  <!-- START NAVBAR -->
+  <nav class="navbar navbar-expand navbar-light bg-none">
+      <!-- START Navbar Left Side -->
+      <ul class="navbar-nav">
+          <li class="nav-item">
+              <a class="nav-link action--sidebar-trigger"><i class="fa fa-bars fa-fw"></i></a>
+          </li>
+          <li class="navbar-brand ml-2 fw-600 d-lg-none">
+              <a href="/" class="d-block">
+                  EscolarteApp
+              </a>
+          </li>
+          <li class="nav-item d-none d-md-block">
+              <span class="ml-4 navbar-text">
+                  <a href="/ class="fa fa-home"></i>
+                  </a>
+                  <i class="fa fa-angle-right ml-2 mr-2"></i>
+                  <a href="/">
+                      Inicio
+                  </a>
+                  <i class="fa fa-angle-right ml-2 mr-2"></i>
+                  Lista de Utiles
+              </span>
+          </li>
+      </ul>
+      <!-- END Navbar Left Side -->
+      
+      <!-- START Navbar Right Side -->
+      <ul class="ml-auto navbar-nav">
+          <!-- START Dropdown Activity -->
+          <li class="dropdown nav-item">
+              <a aria-haspopup="true" href="#" class="nav-link" aria-expanded="false" data-toggle="dropdown">
+                  <div class="icon-with-badge">
+                      <i class="fa fa-bell-o fa-fw"></i>
+                      <span class="icon-with-badge__badge badge badge-secondary badge-pill">6</span>
+                  </div>
+              </a>
+                                          
+          </li>
+          <!-- END Dropdown Activity -->
+          <!-- START Dropdown Messages -->
+          <li class="ml-2 dropdown nav-item">
+              <a aria-haspopup="true" href="#" class="nav-link" aria-expanded="false" data-toggle="dropdown" id="navbar-dropdown-messages">
+                  <div class="icon-with-badge">
+                      <i class="fa fa-envelope-o fa-fw"></i>
+                      <span class="icon-with-badge__badge badge badge-theme badge-pill">3</span>
+                  </div>
+              </a>
+              <!-- START Dropdown Content: Messages Extended -->
+              <div class="dropdown-menu extended-dropdown dropdown-menu-right" role="menu" aria-labelledby="navbar-dropdown-messages">
+                  <div class="extended-dropdown__section d-flex justify-content-between align-items-center">
+                      <h6 class="mb-0">Message</h6>
+                      <a href="/"><i class="fa fa-pencil"></i></a>
+                  </div>
+                  <div class="extended-dropdown__section">
+                      <div class="input-group">
+                          <input placeholder="Search Messages..." type="text" class="form-control">
+                          <div class="input-group-append">
+                              <button class="btn btn-outline-secondary">
+                                  <i class="fa fa-search"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="extended-dropdown__section extended-dropdown__section--list">
+                      <ul class="list-group">
+                          <a class="list-group-item list-group-item-action" href="/jquery/airframe/apps/email-details">
+                                                          
+                  <div class="media">
+                      <div class="media-left mr-4">                                                                                                
+                          <div class="avatar-image avatar-image--loaded ">
+                              <div class="avatar avatar-image__image avatar--md">
+                                  <div class="avatar__content">
+                                      <img src="http://react.bs4.webkom.co/static/avatar-1.jpg">
+                                  </div>
+                                  <div class="avatar__icon avatar__icon--stack ">
+                                      <i class="fa fa-circle text-white"></i>
+                                      <i class="fa fa-circle text-warning"></i>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="media-body">
+                          <span class="d-flex justify-content-start">
+                              <span class="h6 pb-0 mb-0 d-flex align-items-center" data-faker="[[name.firstName}} [[name.lastName}}">Ima Cronin</span>
+                              <span class="ml-1 small">(23)</span>
+                              <span class="ml-auto small">Now</span>
+                          </span>
+                          <p class="mt-2 mb-1" data-faker="[[lorem.sentences]]">Iusto exercitationem corrupti aperiam quia est reprehenderit error vel voluptatibus. Neque ex sit voluptas est totam minima hic placeat. Non sunt sunt delectus omnis sit ut occaecati voluptatem. Nemo optio qui. Aut quia perspiciatis.</p>
+                      </div>
+                  </div>
+                          </a>
+                          <a class="list-group-item list-group-item-action" href="/jquery/airframe/apps/email-details">
+                                                          
+                  <div class="media">
+                      <div class="media-left mr-4">                                                
+                          <div class="avatar-image avatar-image--loaded ">
+                              <div class="avatar avatar-image__image avatar--md">
+                                  <div class="avatar__content">
+                                      <img src="http://react.bs4.webkom.co/static/avatar-1.jpg">
+                                  </div>    
+                                  <div class="avatar__icon avatar__icon--stack ">
+                                      <i class="fa fa-circle text-white"></i>            
+                                      <i class="fa fa-circle text-secondary"></i>                
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="media-body">
+                          <span class="d-flex justify-content-start">
+                              <span class="h6 pb-0 mb-0 d-flex align-items-center" data-faker="[[name.firstName}} [[name.lastName}}">Justen Botsford</span>
+                              <span class="ml-1 small">(23)</span>
+                              <span class="ml-auto small">Now</span>
+                          </span>
+                          <p class="mt-2 mb-1" data-faker="[[lorem.sentences]]">Quisquam minus earum quia fuga debitis reprehenderit. Est in voluptatem illo commodi. Rerum facere ipsa accusantium dolorum quis earum laboriosam. Quas sed ut temporibus nemo a explicabo temporibus. Totam totam sint nemo.</p>
+                      </div>
+                  </div>
+                          </a>
+                          <a class="list-group-item list-group-item-action" href="/jquery/airframe/apps/email-details">
+                                                          
+                  <div class="media">
+                      <div class="media-left mr-4">                                                                                                
+                          <div class="avatar-image avatar-image--loaded ">
+                              <div class="avatar avatar-image__image avatar--md">
+                                  <div class="avatar__content">
+                                      <img src="http://react.bs4.webkom.co/static/avatar-1.jpg">
+                                  </div>
+                                  
+                                  <div class="avatar__icon avatar__icon--stack ">
+                                      <i class="fa fa-circle text-white"></i>            
+                                      <i class="fa fa-circle text-secondary"></i>        
+                                  </div>    
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="media-body">
+                          <span class="d-flex justify-content-start">
+                              <span class="h6 pb-0 mb-0 d-flex align-items-center" data-faker="[[name.firstName}} [[name.lastName}}">Consuelo Runolfsson</span>
+                              <span class="ml-1 small">(23)</span>
+                              <span class="ml-auto small">Now</span>
+                          </span>
+                          <p class="mt-2 mb-1" data-faker="[[lorem.sentences]]">Ut accusantium voluptas ipsam in explicabo laudantium. Sequi tempore hic doloremque quibusdam porro. Laboriosam qui rem nobis sunt accusantium eum voluptates perspiciatis. Eos et officiis reprehenderit molestiae possimus odit quia architecto. Qui velit eum commodi cupiditate et dolorem et.</p>
+                      </div>
+                  </div>
+                          </a>
+                      </ul>
+                  </div>
+                  <a class="extended-dropdown__section text-center" href="/jquery/airframe/apps/inbox.html">
+                      View All<i class="fa fa-angle-right fa-fw ml-2"></i>
+                  </a>
+              </div>
+              <!-- END Dropdown Content: Messages Extended -->
+          </li>
+          <!-- END Dropdown Messages -->
+          <li class="ml-2 nav-item">
+              {% if user.is_authenticated %}
+                <a class="nav-link" href="{% url 'core:logout' %}">
+                    <i class="fa fa-power-off"></i>
+                </a>
+              {% else %}
+                <a class="nav-link" href="{% url 'core:login' %}">
+                    <i class="fa fa-power-off"></i>
+                </a>
+              {% endif %}
+          </li>
+      </ul>
+      <!-- END Navbar Right Side -->
+  </nav>
+  <!-- END NAVBAR -->
+</div>
+<!-- /NAVBAR LAYOUT -->
+
+<!-- CONTENT LAYOUT -->
+<div class="layout__content">
+  
+  {% block content %}
+  {% endblock %}
+  
+</div>
+<!-- /CONTENT LAYOUT -->
+</div>
+
+</div>
+<!-- /Wrapper -->
+
+<!-- JS libs -->
+<script>
+Dashboard.Layout.init($, window, document);
+</script>
+<script src="{% static 'libs/popper/popper.min.js' %}"></script>
+<script src="{% static 'libs/holder/holder.min.js' %}"></script>
+<!-- Own Js -->  
+<script src="{% static 'js/init.js' %}"></script>
+<script src="{% static 'js/dashboard-version.js' %}"></script>
+<script src="{% static 'js/animate.js' %}"></script>
+
+</body>
 </html>
