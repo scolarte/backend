@@ -16,6 +16,9 @@ from .forms import SellerSignUpForm, ClientSignUpForm, ProfileForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import Http404
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+from decouple import config
 
 # Create your views here.
 def home(request):
@@ -40,7 +43,24 @@ class ClientSignUpView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
-        login(self.request, user)
+        print("## Usuario se registro!!!")
+        try:
+            print("Se envió email de Signup Confirmation")
+            sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+            html_content = get_template('scolarte/registration/signup_confirmation.html').render({'revenue': '120'})   
+            #content = Content("text/html", html_content)
+            #print(form.user.email)
+            message = Mail(
+                        from_email=config('FROM_EMAIL'),
+                        to_emails='oma.gonzales@gmail.com',
+                        subject="on user signup is working",
+                        html_content= html_content)
+            sg.send(message)
+        except:
+            print("No se pudo enviar email de confirmación")    
+            #print("Form mail: ", form.user.email)
+            print("Settings FROM EMAIL: ", config('FROM_EMAIL'))
+        login(self.request, user)    
         return redirect('core:home')
 
 
@@ -77,7 +97,23 @@ def MyClientSignupView(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
-            login(request, user)
+            
+            html_content = '<strong>Gracias por registarte </strong>' + username
+            
+            message = Mail(
+                from_email='sendgrid@example.com',
+                to_emails=form.instance.email,
+                subject='Escolarte: ¡Bienvenido ' + username + '!',
+                html_content=html_content)
+            try:
+                sg = SendGridAPIClient(config('SENDGRID_API_KEY'))
+                response = sg.send(message)
+                print(response.status_code)
+                print(response.body)
+                print(response.headers)
+            except Exception as e:
+                print(str(e))
+            login(request, user)    
             return redirect('core:home')
         else:
             raise Http404("Registro no exitoso.")
@@ -115,7 +151,6 @@ def update_client_profile(request):
             return HttpResponse("No se grabó el perfil")
             
     else:
-        #profile_form = ProfileForm(initial={'birthdate': datetime.date(2020, 1, 15), 'cedula_ruc': '26545'})
         profile_form = ProfileForm(provincias_list, cantones_list, parroquias_list, instance=user.profile)
         return render(request, 'scolarte/profile/perfil.html', {'client_profile_form': profile_form})
 

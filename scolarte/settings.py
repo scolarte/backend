@@ -135,3 +135,6 @@ LOGIN_REDIRECT_URL = 'core:home'
 
 LOGOUT_REDIRECT_URL = 'core:home'
 
+FROM_EMAIL = config('FROM_EMAIL')
+
+SENDGRID_API_KEY = config('SENDGRID_API_KEY')

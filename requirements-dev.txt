@@ -3,8 +3,14 @@ dj-database-url==0.5.0
 dj-static==0.0.6
 Django==3.0.2
 django-crispy-forms==1.8.1
+numpy==1.18.1
+pandas==0.25.3
 Pillow==7.0.0
+python-dateutil==2.8.1
 python-decouple==3.3
+python-http-client==3.2.4
 pytz==2019.3
+sendgrid==6.1.1
+six==1.14.0
 sqlparse==0.3.0
 static3==0.7.0

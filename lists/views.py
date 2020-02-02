@@ -13,7 +13,11 @@ import csv, io
 from django.contrib import messages
 from django.views.generic.edit import UpdateView
 from django.shortcuts import get_list_or_404, get_object_or_404
-
+import os
+import json
+from scolarte import settings
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 
 # Create your views here.
@@ -58,9 +62,23 @@ class ListDetailsFormView(LoginRequiredMixin, UpdateView):
         context['list_total'] = list_total
         return context
 
-    # def form_valid(self, form):
-    #     form.instance.school = self.request.school
-    #     return super().form_valid(form)
+    def form_valid(self, form):
+        if form.instance.status == 'entregada':
+            html_content = '<strong>Hemos recibido la confirmación de tu orden: </strong>' + str(form.instance.id)
+            message = Mail(
+                from_email='sendgrid@example.com',
+                to_emails=self.request.user.email,
+                subject='Escolarte: ¡Orden ' + str(form.instance.id) + ' confirmada!',
+                html_content=html_content)
+            try:
+                sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+                response = sg.send(message)
+                print(response.status_code)
+                print(response.body)
+                print(response.headers)
+            except Exception as e:
+                print(str(e))
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('lists:list_details', kwargs={'lista_id': self.object.pk})
