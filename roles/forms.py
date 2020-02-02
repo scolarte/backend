@@ -60,15 +60,13 @@ class ClientSignUpForm(UserCreationForm):
     last_name = forms.CharField(label='Apellido', max_length=100, required=False)
     username = forms.CharField(label='Nombre de usuario', max_length=100, required=True,
                                error_messages={'invalid': "you custom error message"})
-    email = forms.EmailField(label='Correo electrónico', max_length=60, required=True)
+    email = forms.EmailField(label='Correo electrónico', max_length=60, required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}))
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
-
+    
     def __init__(self, *args, **kwargs):
         super(ClientSignUpForm, self).__init__(*args, **kwargs)
-
         
-    
         for fieldname in ['username', 'password1', 'password2']:
             self.fields[fieldname].help_text = None
 

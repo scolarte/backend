@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser
-
+import random
 
 
 class User(AbstractUser):
@@ -16,6 +16,9 @@ class User(AbstractUser):
 
 ### Profile ####
 
+# Helper Functions
+def random_digits():
+    return "%0.12d" % random.randint(0, 999999999999)
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
