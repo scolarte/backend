@@ -113,13 +113,6 @@ def add_product_to_list(request):
     product_slug = request.POST.get('product_slug')
     quantity = request.POST.get('quantity')
 
-    print("##########################")
-    if quantity is None:
-        print("La cantidad es: NONE")
-    else:    
-        print("##########################")
-        print("La cantidad es: ", quantity)
-    
     try:
 
         product = Product.objects.get(
@@ -133,9 +126,6 @@ def add_product_to_list(request):
             quantity=quantity,
             comment="")
        
-        # response.set_cookie("lista_id", lista_id)
-        # response.set_cookie("product_item_id", product_item.id)
-        #return response
         return HttpResponse("post request success")
         
 
@@ -166,15 +156,12 @@ class ListFormView(LoginRequiredMixin, FormView):
 @csrf_exempt
 def update_lists_count(request):
     listas = List.objects.filter(user=request.user)
-    print("Numero de listas!!!!")
-    print(len(listas))
-    return render(request, 'scolarte/listas/listas-de-usuario.html', {'listas':listas})
-    # if not listas:
-    #     mi_primera_lista = List.objects.create(name="Mi primera lista",
-    #     user=request.user)
-    #     return render(request, 'scolarte/listas/listas-de-usuario.html', {'mi_primera_lista':mi_primera_lista})
-    # else:
-    #     return render(request, 'scolarte/listas/listas-de-usuario.html', {'listas':listas})
+    if not listas:
+        mi_primera_lista = List.objects.create(name="Mi primera lista",
+        user=request.user)
+        return render(request, 'scolarte/listas/listas-de-usuario.html', {'mi_primera_lista':mi_primera_lista})
+    else:
+        return render(request, 'scolarte/listas/listas-de-usuario.html', {'listas':listas})
 
 
 

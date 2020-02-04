@@ -138,6 +138,3 @@ FROM_EMAIL = config('FROM_EMAIL')
 
 SENDGRID_API_KEY = config('SENDGRID_API_KEY')
 
-
-
-#port = int(os.environ.get("PORT",8000))
