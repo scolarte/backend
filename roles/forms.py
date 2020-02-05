@@ -59,14 +59,21 @@ class ClientSignUpForm(UserCreationForm):
     first_name = forms.CharField(label="Nombre", max_length=100, required=False)
     last_name = forms.CharField(label='Apellido', max_length=100, required=False)
     username = forms.CharField(label='Nombre de usuario', max_length=100, required=True,
-                               error_messages={'invalid': "you custom error message"})
-    email = forms.EmailField(label='Correo electrónico', max_length=60, required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}))
+                               error_messages={'invalid': "Error in username"})
+    email = forms.EmailField(label='E-mail', max_length=60, required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}))
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
     
     def __init__(self, *args, **kwargs):
         super(ClientSignUpForm, self).__init__(*args, **kwargs)
         
+        self.fields['username'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingresa el usuario que desees'})
+        self.fields['first_name'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingresa tu nombre'})
+        self.fields['last_name'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingresa tu apellido'})
+        self.fields['email'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingresa tu E-mail'})
+        self.fields['password1'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingresa tu contraseña'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Re-Ingresa tu contraseña'})
+
         for fieldname in ['username', 'password1', 'password2']:
             self.fields[fieldname].help_text = None
 
