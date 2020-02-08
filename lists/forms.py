@@ -30,10 +30,10 @@ class ListFormAllLists(ModelForm):
         #self.fields['school'].label_from_instance = "Escuela"
     
     name = forms.CharField(label='Nombre de la lista', max_length=100, required=True)
-    school = forms.ModelChoiceField(queryset=School.objects, empty_label="Eliga una escuela", label="Escuela", required=False)
+    #school = forms.ModelChoiceField(queryset=School.objects, empty_label="Eliga una escuela", label="Escuela", required=False)
 
     class Meta:
         model = List
-        exclude = ["user"]
-        fields = ('name', 'school')        
+        exclude = ('user', 'school')
+        fields = ('name',)        
 

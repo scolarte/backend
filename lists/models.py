@@ -35,6 +35,7 @@ class List(models.Model):
     )
     name = models.CharField(max_length=100, default='Lista anónima')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    #seller = models.ForeignKey(User, on_delete=models.CASCADE)
     school = models.ForeignKey(School, on_delete=models.CASCADE,  null=True, blank=True)
     status = models.CharField(max_length=20, choices=LISTA_STATUS, default='recibida_no_pagada')
     created_at = models.DateTimeField(auto_now_add=True)

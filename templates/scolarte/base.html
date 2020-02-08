@@ -145,11 +145,6 @@
                                 <a class="sidebar-submenu__entry__link" href="{% url 'products:all_products' %}">
                                     <span>Productos</span>
                                 </a>
-                            </li>
-                            <li class="sidebar-submenu__entry active">
-                                <a class="sidebar-submenu__entry__link" href="{% url 'products:all_products' %}">
-                                    <span>Escuelas</span>
-                                </a>
                             </li>                             
                         </ul>
                     </li>
@@ -371,7 +366,7 @@
                     <i class="fa fa-power-off"></i>
                 </a>
               {% else %}
-                <a class="nav-link" href="{% url 'core:login' %}">
+                <a class="nav-link" href="{% url 'core:login_client_seller' %}">
                     <i class="fa fa-power-off"></i>
                 </a>
               {% endif %}
