@@ -146,11 +146,13 @@
                                     <span>Productos</span>
                                 </a>
                             </li>
+                            {% if user.is_seller %}
                             <li class="sidebar-submenu__entry active">
-                                <a class="sidebar-submenu__entry__link" href="{% url 'products:all_products' %}">
-                                    <span>Escuelas</span>
+                                <a class="sidebar-submenu__entry__link" href="{% url 'lists:free_lists' %}">
+                                    <span>Listas libres</span>
                                 </a>
-                            </li>                             
+                            </li>
+                            {% endif %}                               
                         </ul>
                     </li>
                 </ul>
@@ -371,7 +373,7 @@
                     <i class="fa fa-power-off"></i>
                 </a>
               {% else %}
-                <a class="nav-link" href="{% url 'core:login' %}">
+                <a class="nav-link" href="{% url 'core:login_client_seller' %}">
                     <i class="fa fa-power-off"></i>
                 </a>
               {% endif %}

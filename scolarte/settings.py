@@ -10,8 +10,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1', 'scolarte.herokuapp.com']
 
 # Application definition
 
@@ -138,3 +137,4 @@ LOGOUT_REDIRECT_URL = 'core:home'
 FROM_EMAIL = config('FROM_EMAIL')
 
 SENDGRID_API_KEY = config('SENDGRID_API_KEY')
+
