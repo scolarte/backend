@@ -145,7 +145,14 @@
                                 <a class="sidebar-submenu__entry__link" href="{% url 'products:all_products' %}">
                                     <span>Productos</span>
                                 </a>
-                            </li>                             
+                            </li>
+                            {% if user.is_seller %}
+                            <li class="sidebar-submenu__entry active">
+                                <a class="sidebar-submenu__entry__link" href="{% url 'lists:free_lists' %}">
+                                    <span>Listas libres</span>
+                                </a>
+                            </li>
+                            {% endif %}                               
                         </ul>
                     </li>
                 </ul>

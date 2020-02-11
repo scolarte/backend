@@ -223,7 +223,11 @@ def schools_upload(request):
 
 
 
-
+def free_lists(request):
+    free_lists = List.objects.filter(seller__isnull=True)
+    #free_lists = List.objects.filter(seller__isblank=True)
+    #free_lists = None
+    return render(request, 'scolarte/listas/listas-libres.html', {'free_lists':free_lists})
 
 
 
