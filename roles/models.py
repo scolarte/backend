@@ -28,11 +28,8 @@ class Profile(models.Model):
     mobile = models.CharField(max_length=30, blank=True)
     address = models.CharField(max_length=100, blank=False)
     address_reference = models.CharField(max_length=100, blank=False)
-    location = models.CharField(max_length=100, blank=False)
-    shipping_address = models.CharField(max_length=100, blank=False)
-    shipping_provincia = models.CharField(max_length=100, blank=False)
-    shipping_canton = models.CharField(max_length=100, blank=False)
-    shipping_parroquia = models.CharField(max_length=100, blank=False)
+    location = models.CharField(max_length=100, blank=True, null=True)
+    shipping_address = models.CharField(max_length=100, blank=False)    
     photo = models.ImageField(upload_to='profile_pics', default='profile_pics/default_profile_pic.png')
 
     def __str__(self):

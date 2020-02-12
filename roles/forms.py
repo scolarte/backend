@@ -105,14 +105,7 @@ class ProfileForm(ModelForm):
         5:'may', 6:'jun', 7:'jul', 8:'ago',
         9:'set', 10:'oct', 11:'nov', 12:'dic'
     }
-
-    def __init__(self, provincias_list, cantones_list, parroquias_list, *args, **kwargs):
-        super(ProfileForm, self).__init__(*args, **kwargs)
-        self.fields['shipping_provincia'] = forms.ChoiceField(label='Provincia', choices=tuple([(name, name) for name in provincias_list]))
-        self.fields['shipping_canton'] = forms.ChoiceField(label='Cantón', choices=tuple([(name, name) for name in cantones_list]))
-        self.fields['shipping_parroquia'] = forms.ChoiceField(label='Parroquia', choices=tuple([(name, name) for name in parroquias_list]))
-
-
+    
     birthdate = forms.DateField(label='Fecha de nacimiento', widget=SelectDateWidget(years=range(1950, 2012), months=MONTHS))
     cedula_ruc = forms.CharField(label='Cédula', max_length=100, required=True)
     mobile = forms.CharField(label='Celular')
@@ -120,12 +113,9 @@ class ProfileForm(ModelForm):
     address = forms.CharField(label='Dirección', max_length=100, required=True)
     address_reference = forms.CharField(label='Referencia (opcional)', max_length=100, required=False)
     location = forms.CharField(label='Locación', max_length=100, required=False)
-    shipping_address = forms.CharField(label='Dirección de envío', max_length=100, required=True)
-    shipping_provincia = forms.CharField(label='Provincia', max_length=100, required=True)
-    shipping_canton = forms.CharField(label='Cantón', max_length=100, required=True)
-    shipping_parroquia = forms.CharField(label='Parroquia', max_length=100, required=True)
+    shipping_address = forms.CharField(label='Dirección de envío', max_length=100, required=True)    
 
     class Meta:
         model = Profile
         fields = ('cedula_ruc', 'mobile','telephone', 'birthdate', 'address', 'address_reference',
-                  'location', 'shipping_address', 'shipping_provincia', 'shipping_canton', 'shipping_parroquia')
+                  'location', 'shipping_address')
