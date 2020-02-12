@@ -137,12 +137,9 @@ def MyClientSignupView(request):
 @csrf_exempt
 def update_client_profile(request):
     user = request.user
-    provincias_list = ["Azuay", "Bolívar", "Cañar", "Carchi", "Chimborazo"]
-    cantones_list = ["Aguarico", "Baba", "Daule", "Echeandía", "Flavio Alfaro"]
-    parroquias_list = ["Parroquia1", "Parroquia2", "Parroqui3", "Parroquia4", "Parroquia5"]
-
+    
     if request.method == 'POST':
-        profile_form = ProfileForm(provincias_list, cantones_list, parroquias_list, request.POST, request.FILES,
+        profile_form = ProfileForm(request.POST, request.FILES,
                                        instance=user.profile) 
         if profile_form.is_valid():
             profile_form.save(commit=True)
@@ -151,7 +148,7 @@ def update_client_profile(request):
             return HttpResponse("No se grabó el perfil")
             
     else:
-        profile_form = ProfileForm(provincias_list, cantones_list, parroquias_list, instance=user.profile)
+        profile_form = ProfileForm(instance=user.profile)
         return render(request, 'scolarte/profile/perfil.html', {'client_profile_form': profile_form})
 
 
