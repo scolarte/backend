@@ -31,6 +31,8 @@ class Profile(models.Model):
     location = models.CharField(max_length=100, blank=True, null=True)
     shipping_address = models.CharField(max_length=100, blank=False)    
     photo = models.ImageField(upload_to='profile_pics', default='profile_pics/default_profile_pic.png')
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return str(self.user.username) + "'s profile"

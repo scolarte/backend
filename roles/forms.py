@@ -113,7 +113,7 @@ class ProfileForm(ModelForm):
     address = forms.CharField(label='Dirección', max_length=100, required=True)
     address_reference = forms.CharField(label='Referencia (opcional)', max_length=100, required=False)
     location = forms.CharField(label='Locación', max_length=100, required=False)
-    shipping_address = forms.CharField(label='Dirección de envío', max_length=100, required=True)    
+    shipping_address = forms.CharField(label='Dirección de envío', max_length=100, required=False)    
 
     class Meta:
         model = Profile
