@@ -225,7 +225,8 @@
               </a>
           </li>
           <li class="nav-item d-none d-md-block">
-              <span class="ml-4 navbar-text">
+            {% block breadcrumb %}
+            <span class="ml-4 navbar-text">
                   <a href="/ class="fa fa-home"></i>
                   </a>
                   <i class="fa fa-angle-right ml-2 mr-2"></i>
@@ -235,6 +236,7 @@
                   <i class="fa fa-angle-right ml-2 mr-2"></i>
                   Lista de Utiles
               </span>
+            {% endblock%}
           </li>
       </ul>
       <!-- END Navbar Left Side -->

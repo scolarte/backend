@@ -2,149 +2,101 @@
 
 {% load crispy_forms_tags %}
 
+{% block breadcrumb %}
+<span class="ml-4 navbar-text">
+    <a href="/ class="fa fa-home"></i>
+    </a>
+    <i class="fa fa-angle-right ml-2 mr-2"></i>
+    <a href="/">
+        Inicio
+    </a>
+    <i class="fa fa-angle-right ml-2 mr-2"></i>
+    Mi Perfil
+</span>
+{% endblock %}
+
 {% block content %}
 
-<form method="post">
-    {% csrf_token %}
-    <!-- <div class="col-md-6">
-        <table>
-            <tr>
-                <th>{{ client_form.first_name.label_tag }}</th>
-                <td>
-                    {{ client_form.first_name.errors }}
-                    {{ client_form.first_name }}
-                </td>
-            </tr>
-            <tr>
-                <th>{{ client_form.last_name.label_tag }}</th>
-                <td>
-                    {{ client_form.last_name.errors }}
-                    {{ client_form.last_name }}
-                </td>
-            </tr>
-            <tr>
-                <th>{{ client_form.username.label_tag }}</th>
-                <td>
-                    {{ client_form.username.errors }}
-                    {{ client_form.username }}
-                </td>
-            </tr>
-            <tr>
-                <th>{{ client_profile_form.cedula_ruc.label_tag }}</th>
-                <td>
-                    {{ client_profile_form.cedula_ruc.errors }}
-                    {{ client_profile_form.cedula_ruc }}
-                </td>
-            </tr>
-           
-            <tr>
-                <th>{{ client_form.email.label_tag }}</th>
-                <td>{{ client_form.email }}</td>
-            </tr>
-            <tr>
-                <th></th>
-                <td>
-                    <span class="errorlist">{{ client_form.password2.errors.0 }}</span>
-                    <span class="errorlist">{{ client_form.password2.errors.1 }}</span>
-                </td>
-            </tr>
-            <tr>
-                <th>{{ client_form.password1.label_tag }}</th>
-                <td>
-                    {{ client_form.password1.errors }}
-                    {{ client_form.password1 }}
-                </td>
-            </tr>
-            <tr>
-                <th>{{ client_form.password2.label_tag }}</th>
-                <td>
-                    {{ client_form.password2 }}
-
-                </td>
-            </tr>
-
-        </table>
-
-    </div> -->
-
-
-    <div class="col-md-12">
-
-        <table>
-
-            <tr>
-                <th>{{ client_profile_form.cedula_ruc.label_tag }}</th>
-                <td>
-                    {{ client_profile_form.cedula_ruc.errors }}
-                    {{ client_profile_form.cedula_ruc }}
-                </td>
-            </tr>
-            <tr>
-                <th>{{ client_profile_form.birthdate.label_tag }}</th>
-                <td>{{ client_profile_form.birthdate }}</td>
-            </tr>
-            <tr>
-                <th>{{ client_profile_form.mobile.label_tag }}</th>
-                <td>
-                    {{ client_profile_form.mobile.errors }}
-                    {{ client_profile_form.mobile }}
-                </td>
-            </tr>
-
-            <tr>
-                <th>{{ client_profile_form.telephone.label_tag }}</th>
-                <td>
-                    {{ client_profile_form.telephone.errors }}
-                    {{ client_profile_form.telephone }}
-                </td>
-            </tr>
-
-            
-
-            <tr>
-                <th>{{ client_profile_form.location.label_tag }}</th>
-                <td>
-                    {{ client_profile_form.location.errors }}
-                    {{ client_profile_form.location }}
-                </td>
-            </tr>
-
-            <tr>
-                <th>{{ client_profile_form.address.label_tag }}</th>
-                <td>
-                    {{ client_profile_form.address.errors }}
-                    {{ client_profile_form.address }}
-                </td>
-            </tr>
-
-            <tr>
-                <th>{{ client_profile_form.address_reference.label_tag }}</th>
-                <td>
-                    {{ client_profile_form.address_reference.errors }}
-                    {{ client_profile_form.address_reference }}
-                </td>
-            </tr>
-            <tr>
-                <th>{{ client_profile_form.shipping_address.label_tag }}</th>
-                <td>
-                    {{ client_profile_form.shipping_address.errors }}
-                    {{ client_profile_form.shipping_address }}
-                </td>
-            </tr>                                    
-            <tr>
-                <th>
-                    <p></p>
-                </th>
-                <td>
-                    <button class="btn btn-secondary" type="submit">Guardar Información</button>
-                </td>
-            </tr>
-
-
-        </table>
-
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12">
+            <h1 class="display-5 mb-3  mt-2">Mi Perfil</h1>
+        </div>
     </div>
 
-</form>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <!-- <div class="form-group row">
+                                {{ client_profile_form.cedula_ruc|as_crispy_field }}
+                            </div> -->
+                            
+                            <div class="form-group row">
+                                
+                                <div class="col-sm-12">
+                                    {{ client_profile_form.cedula_ruc|as_crispy_field }}
+                                </div>
+                            </div>  
+                            
+                            <div class="form-group row">
+                                
+                                <div class="col-sm-12">
+                                    {{ client_profile_form.birthdate|as_crispy_field }}
+                                </div>
+                            </div> 
+
+                            <div class="form-group row">
+                                
+                                <div class="col-sm-12">
+                                    {{ client_profile_form.mobile|as_crispy_field }}
+                                </div>
+                            </div> 
+
+                            <div class="form-group row">
+                                
+                                <div class="col-sm-12">
+                                    {{ client_profile_form.telephone|as_crispy_field }}
+                                </div>
+                            </div> 
+
+                            <div class="form-group row">
+                                
+                                <div class="col-sm-12">
+                                    {{ client_profile_form.address|as_crispy_field }}
+                                </div>
+                            </div> 
+
+                            <div class="form-group row">
+                                
+                                <div class="col-sm-12">
+                                    {{ client_profile_form.address_reference|as_crispy_field }}
+                                </div>
+                            </div> 
+
+                            <div class="form-group row">
+                                
+                                <div class="col-sm-12">
+                                    {{ client_profile_form.shipping_address|as_crispy_field }}
+                                </div>
+                            </div> 
+
+                            <div class="form-group row">
+                                <label for="#" class="col-sm-4 col-form-label"></label>
+                                <div class="col-sm-8">
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

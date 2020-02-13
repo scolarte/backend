@@ -109,12 +109,23 @@ class ProfileForm(ModelForm):
     birthdate = forms.DateField(label='Fecha de nacimiento', widget=SelectDateWidget(years=range(1950, 2012), months=MONTHS))
     cedula_ruc = forms.CharField(label='Cédula', max_length=100, required=True)
     mobile = forms.CharField(label='Celular')
-    telephone = forms.CharField(label='Teléfono')
+    telephone = forms.CharField(label='Teléfono', required=False)
     address = forms.CharField(label='Dirección', max_length=100, required=True)
     address_reference = forms.CharField(label='Referencia (opcional)', max_length=100, required=False)
     location = forms.CharField(label='Locación', max_length=100, required=False)
-    shipping_address = forms.CharField(label='Dirección de envío', max_length=100, required=False)    
+    shipping_address = forms.CharField(widget=forms.Textarea(attrs={'rows':4, 'cols':15}), label='Dirección de envío', max_length=100, required=True)    
 
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)        
+        self.fields['cedula_ruc'].widget.attrs.update({'class': 'form-control','placeholder': 'Ingrese su cedula'})        
+        self.fields['mobile'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Número de Celular'})
+        self.fields['mobile'].label = "Telefono Celular"
+        self.fields['telephone'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Número de Telefono'})        
+        self.fields['address'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Direccion'})        
+        self.fields['address_reference'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Direccion Referencial (Opcional)'})        
+        self.fields['shipping_address'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Direccion De envio'})        
+        
+        
     class Meta:
         model = Profile
         fields = ('cedula_ruc', 'mobile','telephone', 'birthdate', 'address', 'address_reference',
