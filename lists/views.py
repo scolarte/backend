@@ -18,6 +18,7 @@ import json
 from scolarte import settings
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -42,7 +43,11 @@ def full_remove_school(request, school_id):
     return redirect('lists:schools_upload')   
 
 
-
+def remove_list_assigned_to_seller(request, lista_id):
+    lista = List.objects.get(id=lista_id)
+    lista.seller = None
+    lista.save()
+    return redirect(reverse('lists:my_lists'))
 
 
 class ListDetailsFormView(LoginRequiredMixin, UpdateView):
@@ -141,9 +146,16 @@ class ListFormView(LoginRequiredMixin, FormView):
     success_url = reverse_lazy('lists:my_lists')
 
     def get(self, request, *args, **kwargs):
-        context = self.get_context_data(**kwargs)
-        context['listas'] = List.objects.filter(user=request.user)
-        return self.render_to_response(context)
+        if request.user.is_client:
+            context = self.get_context_data(**kwargs)
+            context['listas'] = List.objects.filter(user=request.user)
+            return self.render_to_response(context)
+        elif request.user.is_seller:
+            context = self.get_context_data(**kwargs)
+            seller = User.objects.get(id = request.user.id)
+            context['listas'] = List.objects.filter(seller=seller)
+            return self.render_to_response(context)
+
 
     def form_valid(self, form):
         form = form.save(commit=False)
@@ -221,13 +233,30 @@ def schools_upload(request):
 
 
 
-
-
 def free_lists(request):
     free_lists = List.objects.filter(seller__isnull=True)
-    #free_lists = List.objects.filter(seller__isblank=True)
-    #free_lists = None
     return render(request, 'scolarte/listas/listas-libres.html', {'free_lists':free_lists})
+
+
+@csrf_exempt
+def assign_free_list_to_seller(request):
+    
+    seller_list_count = len(List.objects.filter(seller = request.user))
+
+    if seller_list_count >= 10:
+        response = JsonResponse({"error": "there was an error"})
+        response.status_code = 403 # To announce that the user isn't allowed to publish
+        return response
+    else:    
+        lista_id = request.POST.get('lista_id')
+        try:
+            lista = List.objects.get(id=lista_id)
+            lista.seller = request.user
+            lista.save()
+        except Exception as e:
+            raise e
+        return redirect(reverse('lists:free_lists'))
+            
 
 
 
