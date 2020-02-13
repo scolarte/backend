@@ -47,14 +47,15 @@ class ClientSignUpView(CreateView):
         try:
             print("Se envió email de Signup Confirmation")
             sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
-            html_content = get_template('scolarte/registration/signup_confirmation.html').render({'revenue': '120'})   
+            # html_content = get_template('scolarte/registration/signup_confirmation.html').render({'revenue': '120'})   
             #content = Content("text/html", html_content)
             #print(form.user.email)
             message = Mail(
                         from_email=config('FROM_EMAIL'),
                         to_emails='oma.gonzales@gmail.com',
                         subject="on user signup is working",
-                        html_content= html_content)
+                        template_id= "186cd80a909d439f8c92b1830120180a",
+                        dynamic_template_data={'username': user.username})
             sg.send(message)
         except:
             print("No se pudo enviar email de confirmación")    
@@ -98,15 +99,19 @@ def MyClientSignupView(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             
-            html_content = '<strong>Gracias por registarte </strong>' + username
-            
+            html_content = '<strong>Gracias por registarte </strong>' + username            
+
             message = Mail(
-                from_email='sendgrid@example.com',
-                to_emails=form.instance.email,
-                subject='Escolarte: ¡Bienvenido ' + username + '!',
-                html_content=html_content)
+                        from_email=config('FROM_EMAIL'),
+                        to_emails=form.instance.email,
+                        subject='Escolarte: ¡Bienvenido ' + username + '!',
+                        html_content=html_content)
+            message.dynamic_template_data = {
+                'username': username
+                }
+            message.template_id = 'd-186cd80a909d439f8c92b1830120180a'
             try:
-                sg = SendGridAPIClient(config('SENDGRID_API_KEY'))
+                sg = SendGridAPIClient(config('SENDGRID_API_KEY'))                
                 response = sg.send(message)
                 print(response.status_code)
                 print(response.body)
@@ -121,11 +126,8 @@ def MyClientSignupView(request):
 
         client_form = ClientSignUpForm()
 
-        #client_profile_form = ProfileForm(provincias_list, cantones_list, parroquias_list)
-
         return render(request, 'scolarte/registration/signup_form.html', {
-            'client_form': client_form,
-            #'client_profile_form': client_profile_form,
+            'client_form': client_form,            
             'user_type': 'cliente'
         })
 
@@ -137,12 +139,9 @@ def MyClientSignupView(request):
 @csrf_exempt
 def update_client_profile(request):
     user = request.user
-    provincias_list = ["Azuay", "Bolívar", "Cañar", "Carchi", "Chimborazo"]
-    cantones_list = ["Aguarico", "Baba", "Daule", "Echeandía", "Flavio Alfaro"]
-    parroquias_list = ["Parroquia1", "Parroquia2", "Parroqui3", "Parroquia4", "Parroquia5"]
-
+    
     if request.method == 'POST':
-        profile_form = ProfileForm(provincias_list, cantones_list, parroquias_list, request.POST, request.FILES,
+        profile_form = ProfileForm(request.POST, request.FILES,
                                        instance=user.profile) 
         if profile_form.is_valid():
             profile_form.save(commit=True)
@@ -151,7 +150,7 @@ def update_client_profile(request):
             return HttpResponse("No se grabó el perfil")
             
     else:
-        profile_form = ProfileForm(provincias_list, cantones_list, parroquias_list, instance=user.profile)
+        profile_form = ProfileForm(instance=user.profile)
         return render(request, 'scolarte/profile/perfil.html', {'client_profile_form': profile_form})
 
 

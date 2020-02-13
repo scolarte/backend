@@ -1,0 +1,48 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{% block title %}Escolarte{% endblock %}</title>
+
+  <!-- Bootstrap  and dependencies CSS -->
+  <script src="https://kit.fontawesome.com/8b3cda2e27.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/apps.css' %}">
+  
+  <!-- Prio Css -->
+
+  <!-- Prio Js -->
+  <script src="{% static 'libs/jquery/jquery.js' %}"></script>
+  <script src="{% static 'js/colors.js' %}"></script>
+  <script src="{% static 'js/side-menu.js' %}"></script>
+  <script src="{% static 'js/bootstrap.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/layout.js' %}"></script>
+</head>
+
+<body class="bg-gray-100">
+    <div class="layout layout--theme--light--primary">
+        <!-- CONTENT -->
+        {% block content%}
+        {% endblock %}
+        <!-- /CONTENT -->
+    </div>
+
+<!-- JS libs -->
+<script>
+Dashboard.Layout.init($, window, document);
+</script>
+<script src="{% static 'libs/popper/popper.min.js' %}"></script>
+<script src="{% static 'libs/holder/holder.min.js' %}"></script>
+<!-- Own Js -->  
+<script src="{% static 'js/init.js' %}"></script>
+<script src="{% static 'js/dashboard-version.js' %}"></script>
+<script src="{% static 'js/animate.js' %}"></script>
+
+</body>
+</html>
