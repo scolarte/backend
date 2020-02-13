@@ -137,4 +137,6 @@ LOGOUT_REDIRECT_URL = 'core:home'
 FROM_EMAIL = config('FROM_EMAIL')
 
 SENDGRID_API_KEY = config('SENDGRID_API_KEY')
-
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+# Disable this  when run in production
+SENDGRID_SANDBOX_MODE_IN_DEBUG=True
