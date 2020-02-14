@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'lists',
     'products',
     'crispy_forms',
+    'import_export',
 ]
 
 MIDDLEWARE = [
