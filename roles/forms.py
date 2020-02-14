@@ -114,6 +114,7 @@ class ProfileForm(ModelForm):
     address_reference = forms.CharField(label='Referencia (opcional)', max_length=100, required=False)
     location = forms.CharField(label='Locación', max_length=100, required=False)
     shipping_address = forms.CharField(widget=forms.Textarea(attrs={'rows':4, 'cols':15}), label='Dirección de envío', max_length=100, required=True)    
+    photo = forms.ImageField(label="Foto de perfil", required=False)
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)        
