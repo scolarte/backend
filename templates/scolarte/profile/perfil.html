@@ -29,13 +29,13 @@
             <div class="col-xl-8">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <form method="post">
+                        <form action="{% url 'roles:profile_update' %}" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             
                             <div class="media">
                                 <!-- Picture -->                           
-                                {% if profile.photo %}
-                                    <img src="{{ profile.photo.url }}" class="rounded-circle" height="50">
+                                {% if user.profile.photo %}
+                                    <img src="{{ user.profile.photo.url }}" class="rounded-circle" height="50">
                                 {% else %}
                                     <img src="{% static 'images/default_profile_pic.png' %}"class="rounded-circle" height="50">
                                 {% endif %}
@@ -43,7 +43,7 @@
                                 
                                 <div class="media-body">
                                     <h5 class="ml-4">{{user.username}} | {{ user.get_full_name }}</h5>                        
-                                    <p class="ml-4"><input type="file" name="picture"/></p>
+                                    <p class="ml-4"><input type="file" name="photo"/></p>
                                 </div>
                             </div>
                             

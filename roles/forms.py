@@ -114,6 +114,7 @@ class ProfileForm(ModelForm):
     address_reference = forms.CharField(label='Referencia (opcional)', max_length=100, required=False)
     location = forms.CharField(label='Locación', max_length=100, required=False)
     shipping_address = forms.CharField(widget=forms.Textarea(attrs={'rows':4, 'cols':15}), label='Dirección de envío', max_length=100, required=True)    
+    photo = forms.ImageField(required=False)
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)        
@@ -124,9 +125,11 @@ class ProfileForm(ModelForm):
         self.fields['address'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Direccion'})        
         self.fields['address_reference'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Direccion Referencial (Opcional)'})        
         self.fields['shipping_address'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Direccion De envio'})        
+        self.fields['photo'].widget.attrs.update({'class': 'None'})        
+        self.fields['photo'].label = ""
         
         
     class Meta:
         model = Profile
         fields = ('cedula_ruc', 'mobile','telephone', 'birthdate', 'address', 'address_reference',
-                  'location', 'shipping_address')
+                  'location', 'shipping_address', 'photo')

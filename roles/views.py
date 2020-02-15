@@ -139,12 +139,12 @@ def MyClientSignupView(request):
 @csrf_exempt
 def update_client_profile(request):
     user = request.user
-    
     if request.method == 'POST':
         profile_form = ProfileForm(request.POST, request.FILES,
                                        instance=user.profile) 
         if profile_form.is_valid():
-            profile_form.save(commit=True)
+            profile_form.save()
+            
             return redirect('core:home')
         else:
             return HttpResponse("No se grabó el perfil")
