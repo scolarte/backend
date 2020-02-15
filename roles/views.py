@@ -104,7 +104,7 @@ def MyClientSignupView(request):
             message = Mail(
                         from_email=config('FROM_EMAIL'),
                         to_emails=form.instance.email,
-                        subject='Escolarte: ¡Bienvenido ' + username + '!',
+                        subject='Escolart: ¡Bienvenido ' + username + '!',
                         html_content=html_content)
             message.dynamic_template_data = {
                 'username': username
