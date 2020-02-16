@@ -61,6 +61,7 @@ class ListDetailsFormView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(*args, **kwargs)
         list_items = ListItem.objects.filter(lista=self.object)
         context['list_items'] = list_items
+        context['list_items_count'] = len(list_items)
         list_total = 0
         for list_item in list_items:
             list_total += Decimal(list_item.sub_total())
@@ -158,6 +159,7 @@ class ListFormView(LoginRequiredMixin, FormView):
 
 
     def form_valid(self, form):
+        form = ListFormAllLists(self.request.POST, self.request.FILES)
         form = form.save(commit=False)
         form.user = self.request.user  # use your own profile here
         form.save()
@@ -189,8 +191,6 @@ def create_my_first_list_or_pass(request):
     else:
         print("Se encontró listas")
         return HttpResponse("Ya existen lista(s) pertenecientes al usuario")
-
-
 
 
 ### Read CSV file to create models ###
