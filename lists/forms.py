@@ -11,15 +11,17 @@ class ListForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ListForm, self).__init__(*args, **kwargs)
         #self.fields['school'] = forms.ChoiceField(label='Escuela', choices=self.List.school)
-        #self.fields['school'].label_from_instance = "Escuela"
+        self.fields['status'].label = "Estado"
     
     name = forms.CharField(label='Nombre de la lista', max_length=100, required=True)
     school = forms.ModelChoiceField(queryset=School.objects, empty_label="Eliga una escuela", label="Escuela", required=False)
+    list_image = forms.FileField(label='Imagen o PDF de la lista (Opcional)', required=False)
+    #status = forms.CharField(label='Estado', max_length=100, required=True)
 
     class Meta:
         model = List
         exclude = ["user"]
-        fields = ('name', 'school', 'status')
+        fields = ('name', 'school', 'status', 'list_image')
 
 
 class ListFormAllLists(ModelForm):
@@ -27,13 +29,13 @@ class ListFormAllLists(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ListFormAllLists, self).__init__(*args, **kwargs)
         #self.fields['school'] = forms.ChoiceField(label='Escuela', choices=self.List.school)
-        #self.fields['school'].label_from_instance = "Escuela"
+        #self.fields['school'].label = "Escuela (Opcional)"
     
     name = forms.CharField(label='Nombre de la lista', max_length=100, required=True)
-    #school = forms.ModelChoiceField(queryset=School.objects, empty_label="Eliga una escuela", label="Escuela", required=False)
-
+    school = forms.ModelChoiceField(queryset=School.objects, empty_label="Eliga una escuela", label="Escuela (Opcional)", required=False)
+    list_image = forms.FileField(label='Imagen o PDF de la lista (Opcional)', required=False)
     class Meta:
         model = List
         exclude = ('user', 'school')
-        fields = ('name',)        
+        fields = ('name', 'list_image')        
 
