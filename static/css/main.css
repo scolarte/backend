@@ -1,7 +1,3 @@
-body {
-    /*font-family: 'Charm', cursive;*/
-    font-family: 'Schoolbell', cursive;
-}
 
 .help_size {
     width:5% !important;
@@ -700,3 +696,13 @@ ul.my_products_list li {
     letter-spacing: .2em;
     font-size: .8em;
 }
+
+
+/* text with same height as button */
+
+.box {
+    /* color: #fff;
+    background: #444; */
+    height:      40px;  
+    line-height: 40px; /* Same as height  */
+  }

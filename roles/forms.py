@@ -77,14 +77,26 @@ class ClientSignUpForm(UserCreationForm):
         for fieldname in ['username', 'password1', 'password2']:
             self.fields[fieldname].help_text = None
 
-    def clean_password2(self):
+    def clean_username(self):
+        """Username must be unique"""
+        username = self.cleaned_data['username']
+        q = User.objects.filter(username=username).exists()
+        if q:
+            raise forms.ValidationError('El usuario ya esta en uso')
+
+        return username
+
+    def clean(self):
+        """Veriricar passwords confirmacion"""
+        data = super().clean()
+        
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError(
-                self.error_messages['password_mismatch'],
-                code='password_mismatch',
-            )
+
+        if password1 != password2:
+            raise forms.ValidationError(self.error_messages['password_mismatch'], code='password_mismatch')
+        
+        return data
 
     @transaction.atomic 
     def save(self):
