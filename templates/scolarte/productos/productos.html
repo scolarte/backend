@@ -89,15 +89,18 @@
 
             <div class="col-auto mb-3">
                 <div class="card" style="width: 18rem;">
-                    <a class="btn" data-toggle="modal" href="#FullImage{{ product.id }}">
-                        {% if product.image %}
-                            <img class="card-img-top" src="{{ product.image.url }}" width="20%" height="100%">
+                    
+                                                                            
+                        {% if product.productphoto_set.all %}       
+                            {% for image in product.productphoto_set.all %}
+                            <img class="card-img-top" src="{{ image.image.url }}" width="20%" height="100%">
+                            {% endfor %}
                         {% else %}
-                        <img src="{% static 'images/product_images/product_placeholder.jpg' %}" width="200px" height="200px">
-                        {% endif %}
-                    </a>
+                            <img  class="card-img-top" src="{% static 'images/product_images/product_placeholder.jpg' %}" width="200px" height="200px">
+                        {% endif %}          
+                                                
                     <div class="card-body">
-                        <h5 class="card-title">{{ product.short_name }}</h5>
+                        <h5 class="text-inverse">{{ product.short_name }}</h5>
                         <p class="card-title">Categoría: {{ product.category.name }}</p>
                         <p class="card-text"><b>Precio unitario: S/ {{ product.price }}</b></p>
                         <label for="tentacles"><b>Cantidad: </b></label>
@@ -108,7 +111,7 @@
                             a lista</a>
                     </div>
                     <div class="card-footer">
-                        <small class="text-muted">Creado el: {{ product.created_at }}</small>
+                        <small class="text-muted">stock: {{ product.stock }}</small>
                     </div>
                 </div>
                 <!-- ### AJAX TO SEND QUANTITY -->
