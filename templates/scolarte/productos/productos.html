@@ -14,7 +14,7 @@
         <h2> Catálogo de productos</h2>
         {% endif %}
         <span>Utiliza el filtro por categoría y la páginación del lado derecho.</span>
-        <p>Agrega todos los que quieras a tu carrito de compras que nosotros los enviaremos hasta tu domicilio.</p>
+        <p>Agrega todos los que quieras a tu lista de útiles .</p>
         <p><b> Total de productos: {{ total_products }} | Productos en esta categoría: {{ product_count_by_category }}
             </b></p>
     </div>
@@ -105,7 +105,7 @@
                             pattern="\d+" min="1" max="99" />
                         <a id="SelectProduct{{ product.id }}" class="btn btn-primary text-white"><i
                                 class="fas fa-shopping-cart margin-right5"></i>Agregar
-                            al carrito</a>
+                            a lista</a>
                     </div>
                     <div class="card-footer">
                         <small class="text-muted">Creado el: {{ product.created_at }}</small>
@@ -133,7 +133,7 @@
                         </div>
                         <div class="modal-footer">
                             <button id="addProducttoList{{ product.id }}" type="button" class="btn btn-secondary"
-                                data-dismiss="">Agregar producto</button>
+                                data-dismiss="">Agregar a Lista</button>
                         </div>
                     </div>
                 </div>

@@ -39,6 +39,7 @@ class List(models.Model):
     school = models.ForeignKey(School, on_delete=models.CASCADE,  null=True, blank=True)
     status = models.CharField(max_length=20, choices=LISTA_STATUS, default='recibida_no_pagada')
     seller_status = models.CharField(max_length=20, choices=LISTA_STATUS, default='recibida_no_pagada')
+    list_image = models.FileField(upload_to='lists_images', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 

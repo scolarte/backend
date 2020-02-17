@@ -1,19 +1,12 @@
 {% extends 'scolarte/base.html' %}
 {% load static %}
 {% block metadescription %}
-{% if category %}
-{{ category.description|truncatewords:155 }}
-{% else %}
-¡Bienvenidos a Stickers Gallito Perú!
-{% endif %}
+Los mejores útiles escolares de Ecuador
 {% endblock %}
 {% block title %}
-{% if category %}
-{{ category.name }}
-{% else %}
-Scolarte
-{% endif %}
+Escolarte
 {% endblock %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
@@ -26,14 +19,15 @@ Scolarte
         </div>
     </div>
 
-    {% if lista.user.is_client %}
+    {% if user.is_client %}
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <h2 class="">Crear una lista nueva</h2>
-            <form action="{% url 'lists:my_lists' %}" method="post">
+            <form class="uniForm" action="{% url 'lists:my_lists' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form }}
-                <input type="submit" value="Crear">
+                {{ form|crispy }}
+                <button type="submit">Crear</button>
+                <!-- <input type="submit" value="Crear">Crear</input> -->
             </form>
         </div>
     </div>
@@ -47,7 +41,7 @@ Scolarte
                 <tr>
                     <th>Lista</th>
                     <th>Escuela</th>
-                    <th>Creada</th>
+                    {% if user.is_client %}<th>Creada</th>{% endif %}
                     <th>Eliminar</th>
                     <th>Estado</th>
                 </tr>
@@ -58,8 +52,7 @@ Scolarte
                     <td>{{ lista.name }}<a href="{% url 'lists:list_details' lista.id %}"> <i
                                 class="fa fa-pencil margin-right3" aria-hidden="true"></i></a></td>
                     <td>{% if not lista.school.name %} No escuela {% else %} {{ lista.school.name }} {% endif %}</td>
-                    <td><small class="text-muted">Última modificación:
-                            {{ lista.modified_at }}</td>
+                    {% if user.is_client %}<td><small class="text-muted">Última modificación:{{ lista.modified_at }}</td>{% endif %}    
                     {% if lista.user.is_client %}
                     <td class="text-center"><a href="{% url 'lists:full_remove_list' lista.id %}" class="custom_icon"><i
                                 class="fas fa-trash-alt custom_icon"></i></a></td>

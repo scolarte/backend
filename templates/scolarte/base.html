@@ -10,7 +10,7 @@
   <!-- Bootstrap  and dependencies CSS -->
   <script src="https://kit.fontawesome.com/8b3cda2e27.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/apps.css' %}">
   
@@ -20,8 +20,8 @@
   <script src="{% static 'libs/jquery/jquery.js' %}"></script>
   <script src="{% static 'js/colors.js' %}"></script>
   <script src="{% static 'js/side-menu.js' %}"></script>
-  <script src="{% static 'js/bootstrap.js' %}"></script>
   <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.js' %}"></script>  
   <script src="{% static 'js/layout.js' %}"></script>
 </head>
 
@@ -43,7 +43,7 @@
                             <!-- START Logo TOP FIXED #1 -->
                 <div>
                     <a class="h4 fw-600 sidebar__brand" href="/">
-                        Escolarte
+                        <img class="img-fluid" src="{% static 'images/escolar-logo-150.png'%}" alt="">
                     </a>
                 </div>
                 <!-- END Logo TOP FIXED #1 -->
@@ -77,25 +77,16 @@
                             <!-- START Dropdown Profile  -->
                             <div class="dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
                                 <h6 class="dropdown-header">
-                                    C. Malkovich
+                                    {{ user.username}}
                                 </h6>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/jquery/airframe/apps/profile-details.html">
+                                <a class="dropdown-item" href="{% url 'roles:profile_update' %}">
                                     Mi perfil
-                                </a>
-                                <a class="dropdown-item" href="/jquery/airframe/apps/account-settings.html">
-                                    Account Settings
-                                </a>
-                                <a class="dropdown-item" href="/jquery/airframe/apps/faq.html">
-                                    Contáctenos
-                                </a>
-                                <a class="dropdown-item" href="/jquery/airframe/apps/billing-edit.html">
-                                    Pagos
-                                </a>
+                                </a>                                
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/
+                                <a class="dropdown-item" href="{% url 'core:logout' %}">
                                     <i class="fa mr-1 fa-sign-out text-muted"></i> 
-                                    Sign Out
+                                    Salir
                                 </a>
                             </div>
                             <!-- END Dropdown Profile  -->
@@ -133,7 +124,7 @@
                     <li class="sidebar-menu__entry sidebar-menu__entry--nested active open" style="">
                         <a href="javascript:;" class="sidebar-menu__entry__link">
                             <i class="fa fa-fw fa-home sidebar-menu__entry__icon"></i>
-                            <span>Tablero</span>
+                            <span>Mi Tablero</span>
                         </a>
                         <ul class="sidebar-submenu">
                             <li class="sidebar-submenu__entry">
@@ -239,21 +230,11 @@
           </li>
           <li class="navbar-brand ml-2 fw-600 d-lg-none">
               <a href="/" class="d-block">
-                  EscolarteApp
+                <img class="img-fluid" src="{% static 'images/escolar-logo-100.png'%}" alt="">
               </a>
           </li>
           <li class="nav-item d-none d-md-block">
-            {% block breadcrumb %}
-            <span class="ml-4 navbar-text">
-                  <a href="/ class="fa fa-home"></i>
-                  </a>
-                  <i class="fa fa-angle-right ml-2 mr-2"></i>
-                  <a href="/">
-                      Inicio
-                  </a>
-                  <i class="fa fa-angle-right ml-2 mr-2"></i>
-                  Lista de Utiles
-              </span>
+            {% block breadcrumb %}            
             {% endblock%}
           </li>
       </ul>
@@ -263,25 +244,25 @@
       <ul class="ml-auto navbar-nav">
           <!-- START Dropdown Activity -->
           <li class="dropdown nav-item">
-              <a aria-haspopup="true" href="#" class="nav-link" aria-expanded="false" data-toggle="dropdown">
+              <!-- <a aria-haspopup="true" href="#" class="nav-link" aria-expanded="false" data-toggle="dropdown">
                   <div class="icon-with-badge">
                       <i class="fa fa-bell-o fa-fw"></i>
                       <span class="icon-with-badge__badge badge badge-secondary badge-pill">6</span>
                   </div>
-              </a>
+              </a> -->
                                           
           </li>
           <!-- END Dropdown Activity -->
           <!-- START Dropdown Messages -->
           <li class="ml-2 dropdown nav-item">
-              <a aria-haspopup="true" href="#" class="nav-link" aria-expanded="false" data-toggle="dropdown" id="navbar-dropdown-messages">
+              <!-- <a aria-haspopup="true" href="#" class="nav-link" aria-expanded="false" data-toggle="dropdown" id="navbar-dropdown-messages">
                   <div class="icon-with-badge">
                       <i class="fa fa-envelope-o fa-fw"></i>
                       <span class="icon-with-badge__badge badge badge-theme badge-pill">3</span>
                   </div>
-              </a>
+              </a> -->
               <!-- START Dropdown Content: Messages Extended -->
-              <div class="dropdown-menu extended-dropdown dropdown-menu-right" role="menu" aria-labelledby="navbar-dropdown-messages">
+              <!-- <div class="dropdown-menu extended-dropdown dropdown-menu-right" role="menu" aria-labelledby="navbar-dropdown-messages">
                   <div class="extended-dropdown__section d-flex justify-content-between align-items-center">
                       <h6 class="mb-0">Message</h6>
                       <a href="/"><i class="fa fa-pencil"></i></a>
@@ -383,7 +364,7 @@
                   <a class="extended-dropdown__section text-center" href="/jquery/airframe/apps/inbox.html">
                       View All<i class="fa fa-angle-right fa-fw ml-2"></i>
                   </a>
-              </div>
+              </div> -->
               <!-- END Dropdown Content: Messages Extended -->
           </li>
           <!-- END Dropdown Messages -->
@@ -406,7 +387,7 @@
 <!-- /NAVBAR LAYOUT -->
 
 <!-- CONTENT LAYOUT -->
-<div class="layout__content">
+<div class="layout__content margin-left5">
   
   {% block content %}
   {% endblock %}
