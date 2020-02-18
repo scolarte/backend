@@ -74,7 +74,7 @@ class ListDetailsFormView(LoginRequiredMixin, UpdateView):
             message = Mail(
                 from_email='sendgrid@example.com',
                 to_emails=self.request.user.email,
-                subject='Escolarte: ¡Orden ' + str(form.instance.id) + ' confirmada!',
+                subject='Escolart: ¡Orden ' + str(form.instance.id) + ' confirmada!',
                 html_content=html_content)
             try:
                 sg = SendGridAPIClient(settings.SENDGRID_API_KEY)

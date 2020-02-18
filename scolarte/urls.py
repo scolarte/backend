@@ -7,9 +7,9 @@ from django.conf.urls.static import static
 
 
 # Change names
-admin.site.site_header = "Escolarte Administracion"
+admin.site.site_header = "Escolart Administracion"
 admin.site.site_title = "Escolate Portal Administrativo"
-admin.site.index_title = "Welcome to Escolarte Sitio Administrativo"
+admin.site.index_title = "Welcome to Escolart Sitio Administrativo"
 
 urlpatterns = [
     path('', include('core.urls')),

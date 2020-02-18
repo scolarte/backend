@@ -61,8 +61,7 @@ class Product(models.Model):
     sku = models.CharField(max_length=20, unique=True, blank=True, null=True)
     description = models.TextField(blank=True)
     price = models.DecimalField(default=1.00, max_digits=6, decimal_places=2, null=True, blank=True)
-    stock = models.IntegerField(default=100, null=True, blank=True)
-    image = models.ImageField(upload_to='product_images', blank=True, null=True)
+    stock = models.IntegerField(default=100, null=True, blank=True)    
     available = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
@@ -74,6 +73,20 @@ class Product(models.Model):
 
     def __str__(self):
         return '{}'.format(self.short_name)
+
+class ProductPhoto(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='product_images', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    class Meta:        
+        verbose_name = 'Foto de Producto'
+        verbose_name_plural = 'Fotos de Productos'
+        
+    def __str__(self):
+        return '{}'.format(self.image)
+
 
 
 
