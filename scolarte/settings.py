@@ -123,13 +123,12 @@ FROM_EMAIL = config('FROM_EMAIL')
 SENDGRID_API_KEY = config('SENDGRID_API_KEY')
 
 
-USE_S3 = os.getenv('USE_S3') == 'TRUE'
-if USE_S3:
+USE_S3 = config('USE_S3')
+if USE_S3 == True:    
     # aws settings
-    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-    print(AWS_STORAGE_BUCKET_NAME)
+    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')    
     AWS_DEFAULT_ACL = None
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
@@ -143,7 +142,7 @@ if USE_S3:
     DEFAULT_FILE_STORAGE = 'scolarte.storage_backends.PublicMediaStorage'
     # s3 private media settings
     PRIVATE_MEDIA_LOCATION = 'private'
-    PRIVATE_FILE_STORAGE = 'scolarte.storage_backends.PrivateMediaStorage'
+    PRIVATE_FILE_STORAGE = 'scolarte.storage_backends.PrivateMediaStorage'    
 else:
     STATIC_URL = '/static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -153,4 +152,4 @@ else:
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 # Disable this  when run in production
-SENDGRID_SANDBOX_MODE_IN_DEBUG=True
+SENDGRID_SANDBOX_MODE_IN_DEBUG=config('SENDGRID_SANDBOX_MODE_IN_DEBUG')
