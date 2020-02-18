@@ -88,12 +88,12 @@
 
 
             <div class="col-auto mb-3">
-                <div class="card" style="width: 18rem;">
-                    
-                                                                            
+                <div class="card" style="width: 18rem;">                                                                                                   
                         {% if product.productphoto_set.all %}       
-                            {% for image in product.productphoto_set.all %}
-                            <img class="card-img-top" src="{{ image.image.url }}" width="20%" height="100%">
+                            {% for image in product.productphoto_set.all %}     
+                            {% if forloop.counter == 1 %}
+                                <img class="card-img-top" src="{{ image.image.url }}" width="290" height="250">                                
+                            {% endif %}
                             {% endfor %}
                         {% else %}
                             <img  class="card-img-top" src="{% static 'images/product_images/product_placeholder.jpg' %}" width="200px" height="200px">
@@ -228,7 +228,7 @@
                         lista_id: lista_id,
                     });
                     $("#SelectListtoAddProduct{{ product.id }}").modal('hide');
-                    $("#ConfirmacionProductoAgregado{{ product.id }}").modal('show');
+                    $("#ConfirmacionProductoAgregado{{ product.id }}").modal('show');                    
                 });
             </script>
 
