@@ -107,7 +107,12 @@
                                     <i class="text-success fa fa-circle"></i>
                                 </div>
                                 <div class="avatar__content">
-                                    <img src="{{ user.profile.photo.url }}">
+                                    {% if profile.photo.url %}
+                            <img src="{{ profile.photo.url }}" class="rounded-circle" height="90">
+                            {% else %}
+                            <img src="{% static 'images/default-profile.png' %}"class="rounded-circle" height="50">
+                            {% endif %} 
+                                    <!-- <img src="{{ user.profile.photo.url }}"> -->
                                 </div>
                             </div>
                         </div>
