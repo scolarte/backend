@@ -147,7 +147,7 @@ def update_client_profile(request):
             
     else:
         profile_form = ProfileForm(instance=user.profile)
-        return render(request, 'scolarte/profile/perfil.html', {'client_profile_form': profile_form})
+        return render(request, 'scolarte/profile/perfil.html', {'client_profile_form': profile_form, 'profile': user.profile})
 
 
 
