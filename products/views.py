@@ -235,9 +235,8 @@ def products_upload(request):
                     sku=column[7],
                     description=column[8],
                     price=column[9],
-                    stock=column[10],
-                    image=column[11],
-                    available=column[12]
+                    stock=column[10],                    
+                    available=column[11]
                 )
             except IntegrityError as e: 
                 if 'unique constraint' in e.args:

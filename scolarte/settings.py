@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'products',
     'crispy_forms',
     'storages',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -121,6 +122,7 @@ FROM_EMAIL = config('FROM_EMAIL')
 
 SENDGRID_API_KEY = config('SENDGRID_API_KEY')
 
+
 USE_S3 = os.getenv('USE_S3') == 'TRUE'
 if USE_S3:
     # aws settings
@@ -149,3 +151,6 @@ else:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+# Disable this  when run in production
+SENDGRID_SANDBOX_MODE_IN_DEBUG=True

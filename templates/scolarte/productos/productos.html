@@ -14,7 +14,7 @@
         <h2> Catálogo de productos</h2>
         {% endif %}
         <span>Utiliza el filtro por categoría y la páginación del lado derecho.</span>
-        <p>Agrega todos los que quieras a tu carrito de compras que nosotros los enviaremos hasta tu domicilio.</p>
+        <p>Agrega todos los que quieras a tu lista de útiles .</p>
         <p><b> Total de productos: {{ total_products }} | Productos en esta categoría: {{ product_count_by_category }}
             </b></p>
     </div>
@@ -88,27 +88,30 @@
 
 
             <div class="col-auto mb-3">
-                <div class="card" style="width: 18rem;">
-                    <a class="btn" data-toggle="modal" href="#FullImage{{ product.id }}">
-                        {% if product.image %}
-                            <img class="card-img-top" src="{{ product.image.url }}" width="20%" height="100%">
+                <div class="card" style="width: 18rem;">                                                                                                   
+                        {% if product.productphoto_set.all %}       
+                            {% for image in product.productphoto_set.all %}     
+                            {% if forloop.counter == 1 %}
+                                <img class="card-img-top" src="{{ image.image.url }}" width="290" height="250">                                
+                            {% endif %}
+                            {% endfor %}
                         {% else %}
-                        <img src="{% static 'images/product_images/product_placeholder.jpg' %}" width="200px" height="200px">
-                        {% endif %}
-                    </a>
+                            <img  class="card-img-top" src="{% static 'images/product_images/product_placeholder.jpg' %}" width="200px" height="200px">
+                        {% endif %}          
+                                                
                     <div class="card-body">
-                        <h5 class="card-title">{{ product.short_name }}</h5>
+                        <h5 class="text-inverse">{{ product.short_name }}</h5>
                         <p class="card-title">Categoría: {{ product.category.name }}</p>
-                        <p class="card-text"><b>Precio unitario: S/ {{ product.price }}</b></p>
+                        <p class="card-text"><b>Precio unitario: $/ {{ product.price }}</b></p>
                         <label for="tentacles"><b>Cantidad: </b></label>
                         <input id="ProductQuantityForProduct{{ product.id }}" type="number" step="1" value="1"
                             pattern="\d+" min="1" max="99" />
                         <a id="SelectProduct{{ product.id }}" class="btn btn-primary text-white"><i
                                 class="fas fa-shopping-cart margin-right5"></i>Agregar
-                            al carrito</a>
+                            a lista</a>
                     </div>
                     <div class="card-footer">
-                        <small class="text-muted">Creado el: {{ product.created_at }}</small>
+                        <small class="text-muted">stock: {{ product.stock }}</small>
                     </div>
                 </div>
                 <!-- ### AJAX TO SEND QUANTITY -->
@@ -133,7 +136,7 @@
                         </div>
                         <div class="modal-footer">
                             <button id="addProducttoList{{ product.id }}" type="button" class="btn btn-secondary"
-                                data-dismiss="">Agregar producto</button>
+                                data-dismiss="">Agregar a Lista</button>
                         </div>
                     </div>
                 </div>
@@ -180,11 +183,15 @@
                                     </table>
                                 </div>
                                 <div class="col-md-6">
-                                    {% if product.image %}
-                                    <img class="card-img-top" src="{{ product.image.url }}" width="20%" height="100%">
+                                    {% if product.productphoto_set.all %}       
+                                        {% for image in product.productphoto_set.all %}     
+                                        {% if forloop.counter == 1 %}
+                                            <img class="card-img-top" src="{{ image.image.url }}" width="290" height="250">                                
+                                        {% endif %}
+                                        {% endfor %}
                                     {% else %}
-                                    <img src="{% static 'images/product_images/product_placeholder.jpg' %}" width="200px" height="200px">
-                                    {% endif %}
+                                       <img src="{% static 'images/product_images/product_placeholder.jpg' %}" width="200px" height="200px">
+                                    {% endif %}                                                                        
                                 </div>
                             </div>
                         </div>
@@ -225,7 +232,7 @@
                         lista_id: lista_id,
                     });
                     $("#SelectListtoAddProduct{{ product.id }}").modal('hide');
-                    $("#ConfirmacionProductoAgregado{{ product.id }}").modal('show');
+                    $("#ConfirmacionProductoAgregado{{ product.id }}").modal('show');                    
                 });
             </script>
 

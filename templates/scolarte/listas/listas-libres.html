@@ -12,9 +12,9 @@
         <tr>
             <th>Lista</th>
             <th>Escuela</th>
-            <th>Creada</th>
             <th>Estado</th>
             <th>Vendedor asignado</th>
+            <th>Asignar lista</th>
         </tr>
     </thead>
     <tbody>
@@ -22,13 +22,52 @@
         <tr>
             <td>{{ free_list.name }}</td>
             <td>{% if not free_list.school.name %} No escuela {% else %} {{ free_list.school.name }} {% endif %}</td>
-            <td><small class="text-muted">Última modificación:
-                    {{ free_list.modified_at }}</td>
             <td>{{ free_list.status }}</td>
             <td>{% if not free_list.seller %} Sin vendedor asignado {% else %} {{ free_list.seller.name }} {% endif %}</td>
+            <td><button id="assignateList{{ free_list.id }}" type="button" class="btn btn-primary" data-dismiss="">Asignarme lista</button></td>                                
         </tr>
+
+
+        <div class="modal fade" id="TenListsLimit{{ free_list.id }}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <h5 class="card-title added-to-cart-check margin-bottom5 margin-left5"><i
+                                    class="fas fa-check margin-right3"></i>Ya tiene 10 listas. Por favor, elimine una de ellas</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h1></h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <!-- Add producto to list -->
+        <script>
+            $("#assignateList{{ free_list.id }}").click(function () {
+                
+                $.post("{% url 'lists:assign_free_list_to_seller' %}", {
+                    lista_id: "{{ free_list.id }}",
+                }).done(function(request) {
+                    window.location = "{% url 'lists:free_lists' %}";
+                }).fail( function(xhr, textStatus, errorThrown) {
+                    $("#TenListsLimit{{ free_list.id }}").modal('show');
+                });
+               
+            });
+        </script>
+
+
         {% endfor %}
+
     </tbody>
-</table>
+</table>      
+    
 
 {% endblock %}
