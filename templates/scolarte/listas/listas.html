@@ -1,0 +1,71 @@
+{% extends 'scolarte/base.html' %}
+{% load static %}
+{% block metadescription %}
+Los mejores útiles escolares de Ecuador
+{% endblock %}
+{% block title %}
+Escolarte
+{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12">
+            <h1 class="display-4 mb-3 mt-2">
+                Mis Listas
+            </h1>
+        </div>
+    </div>
+
+    {% if user.is_client %}
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="">Crear una lista nueva</h2>
+            <form class="uniForm" action="{% url 'lists:my_lists' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit">Crear</button>
+                <!-- <input type="submit" value="Crear">Crear</input> -->
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row mt-5">
+
+        <!-- START CONTENT -->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Lista</th>
+                    <th>Escuela</th>
+                    {% if user.is_client %}<th>Creada</th>{% endif %}
+                    <th>Eliminar</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lista in listas %}
+                <tr>
+                    <td>{{ lista.name }}<a href="{% url 'lists:list_details' lista.id %}"> <i
+                                class="fa fa-pencil margin-right3" aria-hidden="true"></i></a></td>
+                    <td>{% if not lista.school.name %} No escuela {% else %} {{ lista.school.name }} {% endif %}</td>
+                    {% if user.is_client %}<td><small class="text-muted">Última modificación:{{ lista.modified_at }}</td>{% endif %}    
+                    {% if lista.user.is_client %}
+                    <td class="text-center"><a href="{% url 'lists:full_remove_list' lista.id %}" class="custom_icon"><i
+                                class="fas fa-trash-alt custom_icon"></i></a></td>
+                    {% elif lista.user.is_seller %}
+                    <td class="text-center"><a href="{% url 'lists:remove_list_assigned_to_seller' lista.id %}"
+                            class="custom_icon"><i class="fas fa-trash-alt custom_icon"></i></a></td>
+                    {% endif %}
+                    <td>{{ lista.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    {% endblock %}

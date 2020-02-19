@@ -1,0 +1,251 @@
+{% extends 'scolarte/base.html' %}
+{% load static %} 
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="margin-bottom5 margin-top10">
+        {% if selected_category %}
+        <h2> Catálogo de productos de la categoría {{ selected_category }}</h2>
+        {% else %}
+        <h2> Catálogo de productos</h2>
+        {% endif %}
+        <span>Utiliza el filtro por categoría y la páginación del lado derecho.</span>
+        <p>Agrega todos los que quieras a tu lista de útiles .</p>
+        <p><b> Total de productos: {{ total_products }} | Productos en esta categoría: {{ product_count_by_category }}
+            </b></p>
+    </div>
+
+    <!--### Filter ###-->
+    <!-- <div class="row margin-top5 margin-bottom5 "> -->
+    <div class="d-flex justify-content-between margin-bottom5">
+        <div class="">
+            <form method="get" action="{% url 'products:all_products' %}">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Categorías</label>
+                    </div>
+                    <select class="custom-select" searchable="Search here.." value={{filtro}} name="filtro">
+                        <option value="todas" disabled selected>Seleccionar categoría</option>
+                        <option value="todas">Todas</option>
+                        {% for category in categories %}
+                        <option value="{{category.slug}}">{{category.name}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="input-group-append">
+                        <input class="btn btn-outline-secondary" type="submit" name="buscar" value="Buscar"
+                            style="margin-bottom: 0px;" />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="">
+            {% if is_paginated %}
+            <nav>
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item"><a
+                            href="catalogo?filtro={{ filtro }}&Buscar&page={{ page_obj.previous_page_number }}"><span
+                                class="page-link">Anterior</span></a></li>
+                    {% else %}
+                    <li class="page-item disabled"><span class="page-link">Anterior</span></li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                    {% if page_obj.number == i %}
+                    <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                    {% else %}
+                    <li class="page-item"><a href="catalogo?filtro={{ filtro }}&Buscar&page={{ i }}"><span
+                                class="page-link">{{ i }}</span></a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="page-item"><a
+                            href="catalogo?filtro={{ filtro }}&Buscar&page={{ page_obj.next_page_number }}"><span
+                                class="page-link">Siguiente</span></a></li>
+                    {% else %}
+                    <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+    <!-- </div> -->
+
+    <!--### Filter ###-->
+
+
+
+
+    <!-- ENDS NEW ROWS-->
+
+    <div class="mt-3">
+        <div class="row justify-content-center">
+            {% for product in object_list %}
+
+
+            <div class="col-auto mb-3">
+                <div class="card" style="width: 18rem;">                                                                                                   
+                        {% if product.productphoto_set.all %}       
+                            {% for image in product.productphoto_set.all %}     
+                            {% if forloop.counter == 1 %}
+                                <img class="card-img-top" src="{{ image.image.url }}" width="290" height="250">                                
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <img  class="card-img-top" src="{% static 'images/product_images/product_placeholder.jpg' %}" width="200px" height="200px">
+                        {% endif %}          
+                                                
+                    <div class="card-body">
+                        <h5 class="text-inverse">{{ product.short_name }}</h5>
+                        <p class="card-title">Categoría: {{ product.category.name }}</p>
+                        <p class="card-text"><b>Precio unitario: $/ {{ product.price }}</b></p>
+                        <label for="tentacles"><b>Cantidad: </b></label>
+                        <input id="ProductQuantityForProduct{{ product.id }}" type="number" step="1" value="1"
+                            pattern="\d+" min="1" max="99" />
+                        <a id="SelectProduct{{ product.id }}" class="btn btn-primary text-white"><i
+                                class="fas fa-shopping-cart margin-right5"></i>Agregar
+                            a lista</a>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">stock: {{ product.stock }}</small>
+                    </div>
+                </div>
+                <!-- ### AJAX TO SEND QUANTITY -->
+
+
+                <!-- #########################  -->
+            </div>
+
+
+
+            <!-- Listas Dropdown -->
+
+            <div class="modal fade" id="SelectListtoAddProduct{{ product.id }}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <label for="pet-select">Elegir lista:</label>
+                            <select name="listas" id="listas-de-usuario-producto-{{ product.id }}">
+                                {% include 'scolarte/listas/listas-de-usuario.html' %}
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="addProducttoList{{ product.id }}" type="button" class="btn btn-secondary"
+                                data-dismiss="">Agregar a Lista</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Modal Image -->
+            <div class="modal fade" id="FullImage{{ product.id }}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            {% if product.image %}
+                            <img class="card-img-top" src="{{ product.image.url }}" alt="Card image cap">
+                            {% endif %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ends Modal -->
+
+            <!-- Confirmacion: Se agregó producto -->
+
+            <div class="modal fade" id="ConfirmacionProductoAgregado{{ product.id }}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                        <div class="modal-body">
+                            <h5 class="card-title added-to-cart-check margin-bottom5 margin-left5"><i
+                                    class="fas fa-check margin-right3"></i>Se agregó el producto</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <table style="margin-left:10%; margin-top:15%;">
+                                        <tr>
+                                            <th colspan="2" class="added-to-cart-titles">Producto: <br></th>
+                                            <th class="added-to-cart-text">{{ product.short_name }}<br></th>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    {% if product.productphoto_set.all %}       
+                                        {% for image in product.productphoto_set.all %}     
+                                        {% if forloop.counter == 1 %}
+                                            <img class="card-img-top" src="{{ image.image.url }}" width="290" height="250">                                
+                                        {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                       <img src="{% static 'images/product_images/product_placeholder.jpg' %}" width="200px" height="200px">
+                                    {% endif %}                                                                        
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <script>
+                $("#SelectProduct{{ product.id }}").click(function () {
+                    $('#listas-de-usuario-producto-{{ product.id }}').load("{% url 'lists:update_lists_count' %}", function () {
+                        $("#SelectListtoAddProduct{{ product.id }}").modal('show');
+                    });
+                });
+            </script>
+
+            <script>
+                var lista_id;
+                $('#listas-de-usuario-producto-{{ product.id }}').change(function () {
+                    lista_id = $(this).find('option:selected').val();
+                });
+            </script>
+
+
+            <!-- Add producto to list -->
+            <script>
+                $("#addProducttoList{{ product.id }}").click(function () {
+                    var quantity = $('#ProductQuantityForProduct{{ product.id }}').val();
+
+                    $.post("{% url 'lists:add_product_to_list' %}", {
+                        c_slug: "{{ product.category.slug }}",
+                        s_slug: "{{ product.subcategory.slug }}",
+                        product_slug: "{{ product.slug }}",
+                        quantity: quantity,
+                        lista_id: lista_id,
+                    });
+                    $("#SelectListtoAddProduct{{ product.id }}").modal('hide');
+                    $("#ConfirmacionProductoAgregado{{ product.id }}").modal('show');                    
+                });
+            </script>
+
+            {% endfor %}
+        </div>
+    </div>
+
+
+</div>
+
+
+</div>
+
+
+
+{% endblock %}
