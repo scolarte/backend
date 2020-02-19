@@ -114,17 +114,13 @@ def add_product_to_list(request):
             user=request.user)
 
 
-    c_slug = request.POST.get('c_slug')
-    s_slug = request.POST.get('s_slug')
-    product_slug = request.POST.get('product_slug')
+    
+    product_id = request.POST.get('product_id')
     quantity = request.POST.get('quantity')
 
     try:
 
-        product = Product.objects.get(
-            category__slug=c_slug,
-            subcategory__slug=s_slug,
-            slug=product_slug)
+        product = Product.objects.get(id=product_id)
 
         list_item = ListItem.objects.create(
             lista=lista,
