@@ -6,11 +6,18 @@ from django.contrib.auth.views import LoginView, SuccessURLAllowedHostsMixin
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import LoginForm
+from django.shortcuts import render, redirect
+
 
 # Create your views here.
 
-class ScolarteHome(TemplateView):
-    template_name = "scolarte/index.html"
+
+def ScolarteHome(request):
+    if request.user.is_authenticated:
+        return redirect('products:all_products')
+    else:
+        return redirect('core:login')
+
 
 
 class ScolarteLogin(TemplateView):
