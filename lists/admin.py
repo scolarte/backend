@@ -7,7 +7,9 @@ from .models import List, School, ListItem
 
 
 class ListAdmin(admin.ModelAdmin):
-    list_display = ['name', 'status']   
+    list_display = ['id','name', 'status', 'user', 'seller', 'status', 'created_at', 'modified_at']   
+    list_filter = ('status', 'modified_at', 'created_at')
+    search_fields = ['user__username', 'user__first_name', 'user__last_name', 'seller__username']
 
 admin.site.register(List, ListAdmin)
 

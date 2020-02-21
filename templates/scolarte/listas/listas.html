@@ -25,6 +25,7 @@ Escolarte
         <table class="table table-hover">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Lista</th>
                     <th>Escuela</th>
                     <th>Fecha modificacion</th>
@@ -35,6 +36,7 @@ Escolarte
             <tbody>
                 {% for lista in listas %}
                 <tr>
+                    <td>{{lista.id}}</td>
                     <td>{{ lista.name }}<a href="{% url 'lists:list_details' lista.id %}"> <i
                                 class="fa fa-pencil margin-right3" aria-hidden="true"></i></a></td>
                     <td>{% if not lista.school.name %} No escuela {% else %} {{ lista.school.name }} {% endif %}</td>
