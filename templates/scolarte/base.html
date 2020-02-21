@@ -208,7 +208,7 @@
 
                 <!-- Tawk -->
                 <!--Start of Tawk.to Script-->
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated and user.is_client %}
                 <script type="text/javascript">
                     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
                     (function(){

@@ -166,7 +166,11 @@ class ListFormView(LoginRequiredMixin, TemplateView):
 
 @csrf_exempt
 def update_lists_count(request):
-    listas = List.objects.filter(user=request.user)
+    if request.user.is_client:
+        listas = List.objects.filter(user=request.user)
+    elif request.user.is_seller:
+        listas = List.objects.filter(seller=request.user)
+    
     if not listas:
         mi_primera_lista = List.objects.create(name="Mi primera lista",
         user=request.user)
