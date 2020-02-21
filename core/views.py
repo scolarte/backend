@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic import TemplateView
-from products.models import Category, SubCategory, Brand, Product
+from products.models import Category, Brand, Product
 from django.contrib.auth.views import LoginView, SuccessURLAllowedHostsMixin
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import AuthenticationForm
