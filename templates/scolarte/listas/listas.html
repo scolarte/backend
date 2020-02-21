@@ -25,9 +25,10 @@ Escolarte
         <table class="table table-hover">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Lista</th>
                     <th>Escuela</th>
-                    {% if user.is_client %}<th>Creada</th>{% endif %}
+                    <th>Fecha modificacion</th>
                     <th>Eliminar</th>
                     <th>Estado</th>
                 </tr>
@@ -35,10 +36,11 @@ Escolarte
             <tbody>
                 {% for lista in listas %}
                 <tr>
+                    <td>{{lista.id}}</td>
                     <td>{{ lista.name }}<a href="{% url 'lists:list_details' lista.id %}"> <i
                                 class="fa fa-pencil margin-right3" aria-hidden="true"></i></a></td>
                     <td>{% if not lista.school.name %} No escuela {% else %} {{ lista.school.name }} {% endif %}</td>
-                    {% if user.is_client %}<td><small class="text-muted">Última modificación:{{ lista.modified_at }}</td>{% endif %}    
+                    <td><small class="text-muted">Última modificación:{{ lista.modified_at }}</td>
                     {% if lista.user.is_client %}
                     <td class="text-center"><a href="{% url 'lists:full_remove_list' lista.id %}" class="custom_icon"><i
                                 class="fas fa-trash-alt custom_icon"></i></a></td>

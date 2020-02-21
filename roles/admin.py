@@ -21,5 +21,11 @@ class UserAdmin(ImportExportModelAdmin, BaseUserAdmin):
     
 
 admin.site.register(User, UserAdmin)
-admin.site.register(Profile)
+
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'cedula_ruc', 'birthdate', 'created'] 
+    search_fields = ['user__username', 'user__email', 'user__first_name', 'user__last_name', 'cedula_ruc' ]
+    list_filter = ('created',  )
+
+admin.site.register(Profile, ProfileAdmin)
 
