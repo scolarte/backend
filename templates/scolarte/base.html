@@ -136,6 +136,13 @@
                             <span>Mi Tablero</span>
                         </a>
                         <ul class="sidebar-submenu">
+                            {% if user.is_client %}
+                            <li class="sidebar-submenu__entry">
+                                <a class="sidebar-submenu__entry__link" href="{% url 'lists:create_list' %}">
+                                    <span>Crear Lista</span>
+                                </a>
+                            </li>
+                            {% endif %}
                             <li class="sidebar-submenu__entry">
                                 <a class="sidebar-submenu__entry__link" href="{% url 'lists:my_lists' %}">
                                     <span>Mis listas</span>
@@ -155,6 +162,7 @@
                             {% endif %}                               
                         </ul>
                     </li>
+                    
                 </ul>
                 <!-- END Sidebar: Full -->
                     

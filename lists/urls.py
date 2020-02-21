@@ -12,6 +12,7 @@ urlpatterns = [
     path('agregar-producto/', views.add_product_to_list, name='add_product_to_list'),
     path('asignar-lista-libre-a-vendedor/', views.assign_free_list_to_seller, name='assign_free_list_to_seller'),
     path('mis-listas/', views.update_lists_count, name='update_lists_count'),
+    path('crear/', views.ListGridView.as_view(), name='create_list'),
     path('lista-detalles/<int:lista_id>/', views.ListDetailsFormView.as_view(), name='list_details'),
     path('listas-libres/', views.free_lists, name='free_lists'),
     path('escuelas-csv/', views.schools_upload, name="schools_upload"),

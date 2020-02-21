@@ -1,0 +1,45 @@
+{% extends 'scolarte/base.html' %}
+{% load crispy_forms_tags %}
+{% block breadcrumb %}
+<span class="ml-4 navbar-text">
+    <a href="/ class="fa fa-home"></i>
+    </a>
+    <i class="fa fa-angle-right ml-2 mr-2"></i>
+    <a href="{% url 'core:home'%}">
+        Inicio
+    </a>
+    <i class="fa fa-angle-right ml-2 mr-2"></i>
+    <a href="{% url 'lists:my_lists'%}">
+        Listas
+    </a>
+    <i class="fa fa-angle-right ml-2 mr-2"></i>    
+        Crear Lista    
+</span>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12">
+            <h1 class="display-5 mb-3  mt-2">Crear Lista nueva</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form class="uniForm" action="{% url 'lists:create_list' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button type="submit" class="btn btn-primary">Crear Lista</button>
+                            <!-- <input type="submit" value="Crear">Crear</input> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>    
+{% endblock %}
