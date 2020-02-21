@@ -10,6 +10,7 @@
 <table class="table table-hover">
     <thead>
         <tr>
+            <th>ID</th>
             <th>Lista</th>
             <th>Escuela</th>
             <th>Estado</th>
@@ -20,6 +21,7 @@
     <tbody>
         {% for free_list in free_lists %}
         <tr>
+            <td>{{ free_list.id }}</td>
             <td>{{ free_list.name }}</td>
             <td>{% if not free_list.school.name %} No escuela {% else %} {{ free_list.school.name }} {% endif %}</td>
             <td>{{ free_list.status }}</td>
