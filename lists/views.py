@@ -136,11 +136,21 @@ def add_product_to_list(request):
 
 
 
-
-class ListFormView(LoginRequiredMixin, FormView):
+class ListGridView(LoginRequiredMixin, FormView):
     form_class = ListFormAllLists
-    template_name = "scolarte/listas/listas.html"
+    template_name = "scolarte/listas/lista_form.html"
     success_url = reverse_lazy('lists:my_lists')
+    
+    def form_valid(self, form):
+        form = ListFormAllLists(self.request.POST, self.request.FILES)
+        form = form.save(commit=False)
+        form.user = self.request.user  # use your own profile here
+        form.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+class ListFormView(LoginRequiredMixin, TemplateView):    
+    template_name = "scolarte/listas/listas.html"
+    uccess_url = reverse_lazy('lists:my_lists')  
 
     def get(self, request, *args, **kwargs):
         if request.user.is_client:
@@ -152,16 +162,7 @@ class ListFormView(LoginRequiredMixin, FormView):
             seller = User.objects.get(id = request.user.id)
             context['listas'] = List.objects.filter(seller=seller)
             return self.render_to_response(context)
-
-
-    def form_valid(self, form):
-        form = ListFormAllLists(self.request.POST, self.request.FILES)
-        form = form.save(commit=False)
-        form.user = self.request.user  # use your own profile here
-        form.save()
-        return HttpResponseRedirect(self.get_success_url())
-
-
+    
 
 @csrf_exempt
 def update_lists_count(request):
