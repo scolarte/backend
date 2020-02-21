@@ -4,6 +4,10 @@
 <option value="{{ mi_primera_lista.id }}">{{ mi_primera_lista.id }} : {{ mi_primera_lista.name }}</option>
 {% else %}
 {% for lista in listas %}
-<option value="{{ lista.id }}">{{ lista.id }} : {{ lista.name }}</option>
+{% if user.is_seller%}
+<option value="{{ lista.id }}">User: {{lista.user.email}}  - {{ lista.name }}</option>
+{% else %}
+<option value="{{ lista.id }}">{{ lista.name }}</option>
+{% endif %}
 {% endfor %}
 {% endif %}
