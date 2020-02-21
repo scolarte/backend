@@ -23,6 +23,8 @@ admin.site.register(ListItem, ListItemAdmin)
 
 
 class SchoolAdmin(admin.ModelAdmin):
-    list_display = ['name', 'address', 'provincia']   
+    list_display = ['name', 'created_at'] 
+    search_fields = ['name', ]
+    list_filter = ('created_at', )
 
 admin.site.register(School, SchoolAdmin)

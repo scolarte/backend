@@ -108,49 +108,6 @@ def categories_upload(request):
         return redirect('products:categories_upload') 
 
 
-
-### SubCategorías Upload ###
-
-# Create your views here.
-# one parameter named request
-def subcategories_upload(request):
-    # declaring template
-    template = "scolarte/subcategorias/subir-subcategorias.html"
-    data = SubCategory.objects.all()# prompt is a context variable that can have different values depending on their context
-    prompt = {
-        'orden': 'El orden de las columnas del archivo CSV debe ser: producto, direccion, referencia, provincia, cantón, parroquia',
-        'subcategorias': data    
-              }
-    # GET request returns the value of the data with the specified key.
-    if request.method == "GET":
-        return render(request, template, prompt)
-    elif request.method == "POST":    
-        csv_file = request.FILES['file']
-        # let's check if it is a csv file
-        if not csv_file.name.endswith('.csv'):
-            messages.error(request, 'El archivo no es un archivo CSV')
-        data_set = csv_file.read().decode('iso-8859-1')
-        # setup a stream which is when we loop through each line we are able to handle a data in a stream
-        io_string = io.StringIO(data_set)
-        next(io_string)
-        for column in csv.reader(io_string, delimiter=',', quotechar="|"):
-            try:
-                _, created = SubCategory.objects.update_or_create(
-                    category=Category.objects.get(name=column[0]),
-                    system_id=column[1],
-                    name=column[2],
-                    slug=column[3],
-                    description=column[4],
-                    image=column[5]
-                )
-            except IntegrityError as e: 
-                if 'unique constraint' in e.args:
-                    continue     
-        context = {}
-        return redirect('products:subcategories_upload') 
-
-
-
 ### MArcas Upload ###
 
 # Create your views here.
@@ -225,8 +182,7 @@ def products_upload(request):
         for column in csv.reader(io_string, delimiter=',', quotechar="|"):
             try:
                 _, created = Product.objects.update_or_create(
-                    category=Category.objects.get(name=column[0]),
-                    subcategory=SubCategory.objects.get(system_id=column[1]),
+                    category=Category.objects.get(name=column[0]),                    
                     brand=Brand.objects.get(name=column[2]),
                     system_id=column[3],
                     large_name=column[4],
