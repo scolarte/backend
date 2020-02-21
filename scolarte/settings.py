@@ -5,7 +5,7 @@ from dj_database_url import parse as dburl
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+SITE_NAME = 'Escolart'
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
@@ -120,7 +120,6 @@ LOGOUT_REDIRECT_URL = 'core:home'
 
 FROM_EMAIL = config('FROM_EMAIL')
 
-SENDGRID_API_KEY = config('SENDGRID_API_KEY')
 
 
 USE_S3 = os.getenv('USE_S3') == 'TRUE'
@@ -150,5 +149,7 @@ else:
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_API_KEY = config('SENDGRID_API_KEY')
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 # Disable this  when run in production
-SENDGRID_SANDBOX_MODE_IN_DEBUG=config('SENDGRID_SANDBOX_MODE_IN_DEBUG')
+SENDGRID_SANDBOX_MODE_IN_DEBUG = False

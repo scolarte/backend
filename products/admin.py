@@ -38,7 +38,4 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ['price', 'stock', 'available']
     prepopulated_fields = {'slug':('short_name',)}
     list_per_page = 20
-
-
-
-
+    
