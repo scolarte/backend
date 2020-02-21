@@ -6,8 +6,16 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h1 class="box">Lista: {{ lista.name }} <button id="editList" class="btn btn-sm">Editar<i
-                    class="fa fa-pencil margin-left3" aria-hidden="true"></i></button></h1>
+        <h1 class="box">Lista: {{ lista.name }} </h1>
+        {% if lista.status != 'en_revision' %}
+        <button id="editList" class="btn btn-outline-secondary px-3 r-30"><i
+            class="fa fa-pencil fa-fw mr-1" aria-hidden="true"></i>Editar Lista</button>
+            <button id="placeList" class="btn btn-outline-primary px-3 r-30"><i
+                class="fa fa-plus fa-fw mr-1" aria-hidden="true"></i>Ordernar Lista</button>
+        {% else %}
+        <span class="badge badge-info">En revision</span>
+        <button id="placeList" class="btn btn-outline-secondary px-3 r-30">Deshacer orden</button>
+        {% endif %}
     </div>
 </div>
 <hr>
@@ -22,35 +30,45 @@
     $("#editList").click(function () {
         $("#editListForm").removeClass("hidden");
     });
+    $("#closeEditList").click(function () {
+        $("#editListForm").addClass("hidden");
+    });
+
+    $('#placeList').click(()=>{
+        $.post("{% url 'lists:place_list_from_client' %}", {
+                    lista_id: "{{ lista.id }}",
+        }).done((response) => {            
+            location.reload();
+        }).fail( (error) => {
+            console.log(error);
+            // $("#TenListsLimit{{ free_list.id }}").modal('show');
+        });
+    });
 </script>
 
 <div id="editListForm" class="row margin5 hidden">
     <div class="col-md-12">
         <form action="{% url 'lists:list_details' lista.id %}" method="post">
             {% csrf_token %}
-            {{ form|crispy }}
-            <button type="submit">Editar</button>
+            {{form.name|as_crispy_field}}
+            {{form.list_image|as_crispy_field}}
+            <!-- {{ form|crispy }} -->
+            <button type="submit" class="btn btn-primary">Editar</button>
             <a class="btn" id="closeEditList"><b>Cerrar</b></a>
         </form>
     </div>
 </div>
 
-<script>
-    $("#closeEditList").click(function () {
-        $("#editListForm").addClass("hidden");
-    });
-</script>
 
 <hr>
 {% if lista.list_image %}
 <p>Se recibió la foto o PDF de su lista:  <img id="listImageOrPDF{{ lista.id }}" class="margin-left3" src="{{ lista.list_image.url }}" alt="Smiley face" height="20%" width="20%"></p>
-{% endif %}
-
 <script>
     $("#listImageOrPDF{{ lista.id }}").click(function () {
         $("#showListImageOrPDF{{ lista.id }}").modal('show');
     });
 </script>
+{% endif %}
 
 {% if lista.list_image %}
 <div class="modal fade" id="showListImageOrPDF{{ lista.id }}" tabindex="-1" role="dialog"

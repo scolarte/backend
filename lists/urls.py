@@ -15,6 +15,7 @@ urlpatterns = [
     path('crear/', views.ListGridView.as_view(), name='create_list'),
     path('lista-detalles/<int:lista_id>/', views.ListDetailsFormView.as_view(), name='list_details'),
     path('listas-libres/', views.free_lists, name='free_lists'),
+    path('ajax-place-list', views.place_list_client, name='place_list_from_client'),
     path('escuelas-csv/', views.schools_upload, name="schools_upload"),
     path('borrar-producto-de-lista/<int:listitem_id>/', views.full_remove_listitem, name='full_remove_listitem'),
     path('borrar-lista/<int:lista_id>/', views.full_remove_list, name='full_remove_list'),

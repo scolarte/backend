@@ -36,6 +36,19 @@ def full_remove_listitem(request, listitem_id):
     lista_id = list_item.lista.id
     return redirect('lists:list_details', lista_id=lista_id)
 
+@csrf_exempt
+def place_list_client(request):
+    lista_id = request.POST.get('lista_id')
+    if lista_id:
+        try:
+            lista = List.objects.get(id=lista_id)
+            lista.status = 'en_revision'
+            lista.save()
+            return HttpResponse("post request success")
+        except Exception as e:
+            print(str(e))    
+            return HttpResponse("somethin when wrong")
+
 
 def full_remove_school(request, school_id):
     school = School.objects.get(id=school_id)
