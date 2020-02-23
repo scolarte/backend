@@ -18,6 +18,7 @@ urlpatterns = [
     path('escuelas-csv/', views.schools_upload, name="schools_upload"),
     path('borrar-producto-de-lista/<int:listitem_id>/', views.full_remove_listitem, name='full_remove_listitem'),
     path('borrar-lista/<int:lista_id>/', views.full_remove_list, name='full_remove_list'),
+    path('pedir-lista/', views.order_list, name='order_list'),
     path('borrar-escuela/<int:school_id>/', views.full_remove_school, name='full_remove_school'),
     path('remover-lista-asignada-a-vendedor/<int:lista_id>/', views.remove_list_assigned_to_seller, name='remove_list_assigned_to_seller')
 ]
