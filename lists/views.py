@@ -50,6 +50,27 @@ def remove_list_assigned_to_seller(request, lista_id):
     return redirect(reverse('lists:my_lists'))
 
 
+# def order_list(request, lista_id):
+#     lista = List.objects.get(id=lista_id)
+#     lista.status = "Lista pedida"
+#     lista.save()
+#     return redirect(reverse('lists:my_lists'))  
+
+
+@csrf_exempt
+def order_list(request):
+
+    lista_id = request.POST.get('lista_id')
+    lista = List.objects.get(id=lista_id)
+    lista.status = "Lista pedida"
+    lista.save()
+
+    return HttpResponse("post request success")
+        
+ 
+
+
+
 class ListDetailsFormView(LoginRequiredMixin, UpdateView):
     model = List
     form_class = ListForm

@@ -26,19 +26,20 @@ class School(models.Model):
 
 class List(models.Model):
     LISTA_STATUS = (
-        ('recibida_pagada', 'Recibida y pagada'),
-        ('recibida_no_pagada', 'Recibida pero no pagada'),
-        ('en_revision', 'En revision'),
-        ('en_camino', 'En camino'),
-        ('entregada', 'Entregada'),
-        ('cancelada', 'Cancelada')
+        ('Recibida y pagada', 'Recibida y pagada'),
+        ('Recibida pero no pagada', 'Recibida pero no pagada'),
+        ('En revision', 'En revision'),
+        ('Lista pedida', 'Lista pedida'),
+        ('En camino', 'En camino'),
+        ('Entregada', 'Entregada'),
+        ('Cancelada', 'Cancelada')
     )
     name = models.CharField(max_length=100, default='Lista anónima')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='vendedor')
     school = models.ForeignKey(School, on_delete=models.CASCADE,  null=True, blank=True)
-    status = models.CharField(max_length=20, choices=LISTA_STATUS, default='recibida_no_pagada')
-    seller_status = models.CharField(max_length=20, choices=LISTA_STATUS, default='recibida_no_pagada')
+    status = models.CharField(max_length=40, choices=LISTA_STATUS, default='Recibida pero no pagada')
+    seller_status = models.CharField(max_length=40, choices=LISTA_STATUS, default='En revision')
     list_image = models.FileField(upload_to='lists_images', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
