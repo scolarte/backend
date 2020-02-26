@@ -14,7 +14,7 @@ class ListForm(ModelForm):
         self.fields['status'].label = "Estado"
     
     name = forms.CharField(label='Nombre de la lista', max_length=100, required=True)
-    school = forms.ModelChoiceField(queryset=School.objects, empty_label="Eliga una escuela", label="Escuela", required=False)
+    school = forms.ModelChoiceField(queryset=School.objects, empty_label="Eliga una escuela (Opcional)", label="Escuela", required=False)
     list_image = forms.FileField(label='Imagen o PDF de la lista (Opcional)', required=False)
     #status = forms.CharField(label='Estado', max_length=100, required=True)
 

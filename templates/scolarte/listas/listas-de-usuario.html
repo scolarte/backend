@@ -7,7 +7,9 @@
 {% if user.is_seller%}
 <option value="{{ lista.id }}">User: {{lista.user.email}}  - {{ lista.name }}</option>
 {% else %}
+{% if lista.status == "recibida_no_pagada"%}
 <option value="{{ lista.id }}">{{ lista.name }}</option>
+{%endif%}
 {% endif %}
 {% endfor %}
 {% endif %}

@@ -36,6 +36,64 @@ def full_remove_listitem(request, listitem_id):
     lista_id = list_item.lista.id
     return redirect('lists:list_details', lista_id=lista_id)
 
+# ajax to update list Status from seller
+@csrf_exempt
+def updateListSeller(request):
+    lista_id = request.POST.get('lista_id')
+    estado = request.POST.get('estatus')
+    print(estado)
+    lista = List.objects.get(id=lista_id)
+    
+    try:
+        lista.status = estado
+        lista.save()
+        return HttpResponse(json.dumps({
+            "response": "ok", "action": "updateListSeller"}), 
+            content_type="application/json")
+    except Exception as e:
+            print(str(e))    
+            return HttpResponse("somethin when wrong in updateListSeller")
+
+# Ajax to add quantity
+@csrf_exempt
+def addQuantity(request):
+    lista_id = request.POST.get('lista_id')
+    list_item_id = request.POST.get('lista_item_id')
+    listproduct_id = request.POST.get('lista_product_id')    
+    action = request.POST.get('action')    
+    list_item = ListItem.objects.get(id=list_item_id, lista__id=lista_id,  product__id=listproduct_id)    
+    # product = Product.objects.get(id=listproduct_id)
+    try:
+        if(action == "substract"):            
+            list_item.quantity = list_item.quantity-1
+        else:
+            # if product.stock > list_item.quantity:
+            list_item.quantity = list_item.quantity+1
+            
+        quantity = list_item.quantity
+        list_item.save()
+        return HttpResponse(json.dumps({
+            "response": "ok", "quantity": quantity, "action": action}), 
+            content_type="application/json")
+    except Exception as e:
+            print(str(e))    
+            return HttpResponse("somethin when wrong")
+    
+
+
+@csrf_exempt
+def place_list_client(request):
+    lista_id = request.POST.get('lista_id')
+    if lista_id:
+        try:
+            lista = List.objects.get(id=lista_id)
+            lista.status = 'en_revision'
+            lista.save()
+            return HttpResponse("post request success")
+        except Exception as e:
+            print(str(e))    
+            return HttpResponse("somethin when wrong")
+
 
 def full_remove_school(request, school_id):
     school = School.objects.get(id=school_id)

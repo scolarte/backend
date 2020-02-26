@@ -1,4 +1,5 @@
 from django.db import models
+from decimal import *
 from .size_and_quantities import TAMANIOS, CANTIDADES
 
 class Category(models.Model):

@@ -46,9 +46,9 @@
         <!-- END Form -->
         <!-- START Bottom Link(s) -->
             <div class="d-flex mb-5">
-            <a href="/forgot-password.html">													
+            <a href="{% url 'roles:password_reset' %}">													
 
-            Olvide mi clave
+                Olvide mi clave
             </a>
             <a href="{% url 'core:login' %}" class="ml-auto">
             Ingresar
