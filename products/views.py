@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 from .models import *
 from lists.models import List
 from django.shortcuts import render, get_object_or_404
@@ -32,7 +33,7 @@ class ProductsListView(ListView):
 
     model = Product
     template_name = "scolarte/productos/productos.html"
-    paginate_by = 9
+    paginate_by = 12    
 
     def get_queryset(self):
         filter_val = self.request.GET.get('filtro', 'todas')
@@ -60,8 +61,7 @@ class ProductsListView(ListView):
         context['selected_category'] = selected_category
         context['total_products'] = Product.objects.filter(available=True).count()
         context['product_count_by_category'] = self.get_queryset().count()
-        context['users_lists'] = List.objects.filter(user=self.request.user)
-        
+        context['users_lists'] = List.objects.filter(user=self.request.user)        
         return context
 
 

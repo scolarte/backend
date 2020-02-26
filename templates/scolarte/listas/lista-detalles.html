@@ -1,38 +1,190 @@
 {% extends 'scolarte/base.html' %}
-
+{% load static %} 
+{% load fancy_status %} 
 {% load crispy_forms_tags %}
 
 {% block content %}
 
 <div class="row">
-    <div class="col-md-12">
-        <h1 class="box">Lista: {{ lista.name }} </h1>
-        {% if lista.status != 'en_revision' %}
-        <button id="editList" class="btn btn-outline-secondary px-3 r-30"><i
-            class="fa fa-pencil fa-fw mr-1" aria-hidden="true"></i>Editar Lista</button>
-            <button id="placeList" class="btn btn-outline-primary px-3 r-30"><i
-                class="fa fa-plus fa-fw mr-1" aria-hidden="true"></i>Ordernar Lista</button>
-        {% else %}
-        <span class="badge badge-info">En revision</span>
-        <button id="placeList" class="btn btn-outline-secondary px-3 r-30">Deshacer orden</button>
-        {% endif %}
+    <div class="col-xl-12"> 
+        <div class="row">
+            <div class="col-xl-12 col-md-12">
+                <h4 class=""><span class="badge badge-{{lista.status|fancy_status_class}}">LSC000{{lista.id}}</span> {{ lista.name }} </h4>                
+            </div>       
+        </div>
+        
+        {% if lista.status == 'recibida_no_pagada' and user.is_client %}
+        <div class="row">
+            <div class="col-xl-12 col-g-12 col-md-12 col-sm-12">
+                <button id="editList" class="btn btn-outline-secondary px-3 r-30"><i
+                    class="fa fa-pencil fa-fw mr-1" aria-hidden="true"></i>Editar</button>
+                    <a href="{% url 'products:all_products'%}" id="addProductoList" class="btn btn-outline-secondary px-3 r-30"><i
+                        class="fa fa-plus fa-fw mr-1" aria-hidden="true"></i>Agregar articulos</a>
+                {% if list_total > 0 and user.is_client %}
+                <button id="placeList" class="btn btn-outline-primary px-3 r-30"><i
+                    class="fa fa-plus fa-fw mr-1" aria-hidden="true"></i>Comprar lista</button>
+                {% endif %}                   
+
+            </div>
+        </div>  
+        {% elif user.is_seller %}
+        <div class="row">
+            <div class="col-xl-12 col-g-12 col-md-12 col-sm-12">
+                <button id="editList" class="btn btn-outline-secondary px-3 r-30"><i
+                    class="fa fa-pencil fa-fw mr-1" aria-hidden="true"></i>Editar</button>
+                    <a href="{% url 'products:all_products'%}" id="addProductoList" class="btn btn-outline-secondary px-3 r-30"><i
+                        class="fa fa-plus fa-fw mr-1" aria-hidden="true"></i>Agregar articulos</a>
+                {% if list_total > 0 and user.is_client %}
+                <button id="placeList" class="btn btn-outline-primary px-3 r-30"><i
+                    class="fa fa-plus fa-fw mr-1" aria-hidden="true"></i>Comprar lista</button>
+                {% endif %}  
+
+                <select name="listas" id="lista-estados-seller">
+                    {% include 'scolarte/listas/lista-status.html' %}
+                </select>
+
+            </div>
+        </div>  
+        {% endif %}                  
+        <div class="row" id="infoPanel">
+            <div class="col-xl-12 col-g-12 col-md-12 col-sm-12 mt-3">
+                <!-- START Card -->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="home" aria-selected="true">
+                                    General
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pichincha-tab" data-toggle="tab" href="#pichincha" role="tab" aria-controls="home" aria-selected="true">
+                                    Banco del Pichincha
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="produbanco-tab" data-toggle="tab" href="#produbanco" role="tab" aria-controls="profile" aria-selected="false">
+                                    Produbanco
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade active show" id="general" role="tabpanel" aria-labelledby="general-tab">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <dl class="row">
+                                        <div class="col-xl-12 col-g-12 col-md-12 col-sm-12">
+                                            <div class="row">
+                                                <dt class="col-sm-2"><b>Estado:</b></dt>
+                                                <dd class="col-sm-10"><span class="badge badge-{{lista.status|fancy_status_class}}">{{lista.status|fancy_status_list}}</span>  <span class="badge badge-outline-info">{{lista.status|fancy_status_message}}.</span></dd>
+                                                <dt class="col-sm-2"><b>Codigo Lista:</b></dt>
+                                                <dd class="col-sm-10"><span class="badge badge-dark">LSC000{{lista.id}}</span></dd>                                                                                                
+                                                <dt class="col-sm-2"><b>Total:</b></dt>
+                                                <dd class="col-sm-10"><span id="lista_total_value">${{list_total}}</span></dd> 
+                                                <dt class="col-sm-2"><b>Productos:</b></dt>
+                                                <dd class="col-sm-10">{{list_items_count}}</dd>
+                                                <dt class="col-sm-2"><b>Lista Imagen:</b></dt> 
+                                                <dd class="col-sm-10">
+                                                    {% if lista.list_image %}
+                                                     Si
+                                                     {% else %}
+                                                     No adjuntada
+                                                    {% endif %}
+                                                </dd>
+                                            </div>
+                                        </div>                                    
+                                    </dl>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pichincha" role="tabpanel" aria-labelledby="pichincha-tab">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <dl class="row">
+                                        <div class="col-xl-6 col-g-6 col-md-6 col-sm-12">
+                                            <div class="row">
+                                                <dt class="col-sm-3"><b>Tipo de Cta:</b></dt>
+                                                <dd class="col-sm-9">Corriente</dd>
+                                                <dt class="col-sm-3"><b>Número:</b></dt>
+                                                <dd class="col-sm-9">4858106700</dd>
+                                                <dt class="col-sm-3"><b>Nombre:</b></dt>
+                                                <dd class="col-sm-9">Escolart S.A</dd>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-g-6 col-md-6 col-sm-12">
+                                            <div class="row">
+                                                <dt class="col-sm-3 text-truncate"><b>RUC</b></dt>
+                                                <dd class="col-sm-9">0925163347001</dd>
+                                                <dt class="col-sm-3"><b>E-mail</b></dt>
+                                                <dd class="col-sm-9">facturacion@escolart.com</dd>
+                                                <dt class="col-sm-3"><b>Codigo Lista</b></dt>
+                                                <dd class="col-sm-9">LSC000{{lista.id}}</dd>
+                                            </div>
+                                        </div>                                                                                
+                                    </dl>
+                                    <dl class="row">
+                                        <div class="col-xl-12 col-g-12 col-md-12 col-sm-12">
+                                            <div class="row">
+                                                <dt class="col-sm-12 text-truncate">Debe hacer el deposito o transferencia, y como referencia poner el codigo de la lista <b>LSC000{{lista.id}}</b></dt>
+                                            </div>
+                                        </div>
+                                    </dl>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="produbanco" role="tabpanel" aria-labelledby="produbanco-tab">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <dl class="row">
+                                        <div class="col-xl-6 col-g-6 col-md-6 col-sm-12">
+                                            <div class="row">
+                                                <dt class="col-sm-3"><b>Tipo de Cta:</b></dt>
+                                                <dd class="col-sm-9">Corriente</dd>
+                                                <dt class="col-sm-3"><b>Número:</b></dt>
+                                                <dd class="col-sm-9">4858106700</dd>
+                                                <dt class="col-sm-3"><b>Nombre:</b></dt>
+                                                <dd class="col-sm-9">Escolart S.A</dd>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-g-6 col-md-6 col-sm-12">
+                                            <div class="row">
+                                                <dt class="col-sm-3 text-truncate"><b>RUC</b></dt>
+                                                <dd class="col-sm-9">0925163347001</dd>
+                                                <dt class="col-sm-3"><b>E-mail</b></dt>
+                                                <dd class="col-sm-9">facturacion@escolart.com</dd>
+                                                <dt class="col-sm-3"><b>Codigo Lista</b></dt>
+                                                <dd class="col-sm-9">LSC000{{lista.id}}</dd>
+                                            </div>
+                                        </div>                                                                                
+                                    </dl>
+                                    <dl class="row">
+                                        <div class="col-xl-12 col-g-12 col-md-12 col-sm-12">
+                                            <div class="row">
+                                                <dt class="col-sm-12 text-truncate">Debe hacer el deposito o transferencia, y como referencia poner el codigo de la lista <b>LSC000{{lista.id}}</b></dt>
+                                            </div>
+                                        </div>
+                                    </dl>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END Card -->
+            </div>
+        </div>        
     </div>
 </div>
-<hr>
-<div class="row">
-    <div class="col-md-12">
-        <p>Total: $ {{ list_total }} | Productos en la lista: {{ list_items_count }}</p>
-    </div>
-</div>
-<hr>
 
 <script>
     $("#editList").click(function () {
         $("#editListForm").removeClass("hidden");
-    });
-    $("#closeEditList").click(function () {
-        $("#editListForm").addClass("hidden");
-    });
+        $("#infoPanel").addClass("hidden");
+        $("#closeEditList").click(function () {
+            $("#editListForm").addClass("hidden");
+            $("#infoPanel").removeClass("hidden");
+        });
+    });    
 
     $('#placeList').click(()=>{
         $.post("{% url 'lists:place_list_from_client' %}", {
@@ -40,67 +192,136 @@
         }).done((response) => {            
             location.reload();
         }).fail( (error) => {
-            console.log(error);
-            // $("#TenListsLimit{{ free_list.id }}").modal('show');
+            console.log(error);            
         });
     });
 </script>
 
 <div id="editListForm" class="row margin5 hidden">
-    <div class="col-md-12">
-        <form action="{% url 'lists:list_details' lista.id %}" method="post">
-            {% csrf_token %}
-            {{form.name|as_crispy_field}}
-            {{form.list_image|as_crispy_field}}
-            <!-- {{ form|crispy }} -->
-            <button type="submit" class="btn btn-primary">Editar</button>
-            <a class="btn" id="closeEditList"><b>Cerrar</b></a>
-        </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form action="{% url 'lists:list_details' lista.id %}" method="post">
+                            {% csrf_token %}
+                            {{form.name|as_crispy_field}}
+                            {{form.list_image|as_crispy_field}}                            
+                            <button type="submit" class="btn btn-primary">Editar</button>
+                            <a class="btn" id="closeEditList"><b>Cerrar</b></a>
+                        </form>    
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
+<div class="row">
+    <div class="col-xl-12">        
+        <div class="card mb-4">
+            <div class="card-body">                
+                <table class="table table-bordered mb-0">
+                    <thead>
+                        <th>Articulo</th>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Total</th>
+                        <th class="text-right">Acciones</th>
+                    </thead>
+                    <tbody>      
+                        {% if list_items.count > 0 %}                  
+                            {% for list_item in list_items %}
+                            <tr>
+                                <td class="align-middle">
+                                    {% if list_item.product.productphoto_set.all %}       
+                                        {% for image in list_item.product.productphoto_set.all %}     
+                                        {% if forloop.counter == 1 %}
+                                            <img class="img-thumbnail" src="{{ image.image.url }}" width="150" height="150">                                
+                                        {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <img src="{% static 'images/product_images/product_placeholder.jpg' %}" width="200px" height="200px">
+                                    {% endif %}                                      
+                                </td>
+                                <td class="align-middle">
+                                    <span >{{list_item.product.short_name}}</span>
+                                    <br>
+                                    <span class="text-muted">Marca: {{list_item.product.brand.name}}</span>
+                                </td>
+                                <td class="align-middle">
+                                    {% if user.is_seller or lista.status == "recibida_no_pagada" and user.is_client %}
+                                    <button class="btn btn-primary modifyQuantity" data-precio="{{list_item.product.price}}"  data-lista-item-id="{{list_item.id}}" data-action="add" data-lista-product-id="{{list_item.product.id}}">+</button>
+                                    <span class="quantity-{{list_item.id}}">{{list_item.quantity}}</span>
+                                    <button id="minorQuantity-{{list_item.product.id}}" class="btn btn-secondary modifyQuantity" {% if list_item.quantity <= 1 %} disabled {% endif %} data-lista-item-id="{{list_item.id}}" data-lista-product-id="{{list_item.product.id}}" data-action="substract" data-precio="{{list_item.product.price}}">-</button>
+                                    <br>
+                                    <span class="text-muted">Stock {{list_item.product.stock}}</span>
+                                    {% else %}
+                                    <span class="quantity-{{list_item.id}}">{{list_item.quantity}}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="align-middle">${{list_item.product.price}}</td>
+                                <td class="align-middle showTotal-{{list_item.id}}">
+                                    ${{list_item.sub_total}}
+                                </td>
+                                <td class="align-middle">
 
-<hr>
-{% if lista.list_image %}
-<p>Se recibió la foto o PDF de su lista:  <img id="listImageOrPDF{{ lista.id }}" class="margin-left3" src="{{ lista.list_image.url }}" alt="Smiley face" height="20%" width="20%"></p>
+                                    {% if user.is_seller or lista.status == "recibida_no_pagada" and user.is_client %}
+                                        <a href="{% url 'lists:full_remove_listitem' list_item.id %}" class="btn btn-danger btn-sm">Eliminar</a>                                    
+                                    {%endif%}
+                                </td>
+                            </tr>  
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td class="align-middle" colspan="6">No hay articulos en tu lista</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>                
+            </div>
+        </div>
+    </div>
+</div>
 <script>
-    $("#listImageOrPDF{{ lista.id }}").click(function () {
-        $("#showListImageOrPDF{{ lista.id }}").modal('show');
-    });
+    $(".modifyQuantity").click((e) => {
+        let listaId = "{{lista.id}}";
+        let listItemId = e.target.getAttribute('data-lista-item-id');
+        let listProductId = e.target.getAttribute('data-lista-product-id');
+        let dataAction = e.target.getAttribute('data-action');
+        let precio = parseFloat(e.target.getAttribute('data-precio').replace(",","."));        
+        
+        $.post("{% url 'lists:add_quantity' %}", {
+            lista_id: listaId,
+            lista_item_id: listItemId,
+            lista_product_id: listProductId,
+            action: dataAction
+        }).done((response) => {            
+            if(response.response === 'ok') {
+                const precioFinal = precio*parseInt(response.quantity);                
+                let lista_total= null;
+                if (response.action === "add"){
+                    lista_total = parseFloat($('#lista_total_value').html().replace('$', '').replace(",",".")) + precio;
+                    if(response.quantity > 0 && $("#minorQuantity-"+listProductId).is(':disabled') ){
+                        console.log("Entro")
+                        $("button#minorQuantity-"+listProductId).prop('disabled', false);
+                    }
+                }else{                    
+                    lista_total = parseFloat($('#lista_total_value').html().replace('$', '').replace(",",".")) - precio;
+                    if(response.quantity <= 1){
+                        e.target.disabled = true;
+                    }
+                }
+                $('.showTotal-'+listItemId).html('$'+String(precioFinal.toFixed(2)).replace('.',','));
+                $('.quantity-'+listItemId).html(response.quantity);                
+                $('#lista_total_value').html("$"+String(lista_total.toFixed(2)).replace('.', ','));
+                console.log('Debio actualizar')
+            }
+        }).fail( (error) => {
+            console.log(error);            
+        });
+
+    });   
 </script>
-{% endif %}
-
-{% if lista.list_image %}
-<div class="modal fade" id="showListImageOrPDF{{ lista.id }}" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <img id="listImageOrPDF" src="{{ lista.list_image.url }}" alt="Smiley face" width="50%" height="50%">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-{% endif %}
-
-<div class="row margin-top5">
-    {% for list_item in list_items %}
-    {% if forloop.counter0|divisibleby:3 and not forloop.first %}<div class="w-100"></div>{% endif %}
-    <div class="card margin-right3" style="width: 14rem;">
-        <div class="card-body">
-            <h5 class="card-title">{{ list_item.product.short_name }}</h5>
-            <p class="card-title">Precio unitario: $ {{ list_item.product.price }}</p>
-            <p class="card-title">Cantidad: {{ list_item.quantity }}</p>
-            <p class="card-title">Subtotal: $ {{ list_item.sub_total }}</p>
-            <p class="card-text">{{ list_item.description }}</p>
-            <a href="{% url 'lists:full_remove_listitem' list_item.id %}" class="custom_icon"><i
-                    class="fas fa-trash-alt custom_icon"></i></a>
-        </div>
-    </div>
-    {% endfor %}
-</div>
-
 {% endblock %}

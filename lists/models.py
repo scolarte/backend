@@ -1,4 +1,5 @@
 from django.db import models
+from decimal import Decimal
 from products.models import Product
 from roles.models import User
 import uuid
@@ -59,6 +60,6 @@ class ListItem(models.Model):
     step_two_complete = models.BooleanField(default=False)
 
     def sub_total(self):
-        return int(self.product.price * self.quantity)
+        return Decimal(self.product.price * self.quantity)
 
 
