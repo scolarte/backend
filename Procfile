@@ -1,1 +1,1 @@
-web: gunicorn scolarte.wsgi --log-file -
+web: gunicorn scolarte.wsgi -t 30 --log-file -
