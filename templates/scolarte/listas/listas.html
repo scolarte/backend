@@ -1,5 +1,6 @@
 {% extends 'scolarte/base.html' %}
 {% load static %}
+{% load fancy_status %} 
 {% block metadescription %}
 Los mejores útiles escolares de Ecuador
 {% endblock %}
@@ -40,7 +41,7 @@ Escolarte
                     <td>{{ lista.name }}<a href="{% url 'lists:list_details' lista.id %}"> <i
                                 class="fa fa-pencil margin-right3" aria-hidden="true"></i></a></td>
                     <td>{% if not lista.school.name %} No escuela {% else %} {{ lista.school.name }} {% endif %}</td>
-                    <td><small class="text-muted">Última modificación:{{ lista.modified_at }}</td>
+                    <td><small class="text-muted">Última modificación:{{ lista.modified_at|date:"SHORT_DATE_FORMAT" }}</td>
                     {% if lista.user.is_client %}
                     <td class="text-center"><a href="{% url 'lists:full_remove_list' lista.id %}" class="custom_icon"><i
                                 class="fas fa-trash-alt custom_icon"></i></a></td>
@@ -48,7 +49,7 @@ Escolarte
                     <td class="text-center"><a href="{% url 'lists:remove_list_assigned_to_seller' lista.id %}"
                             class="custom_icon"><i class="fas fa-trash-alt custom_icon"></i></a></td>
                     {% endif %}
-                    <td>{{ lista.status }}</td>
+                    <td>{{ lista.status|fancy_status_list }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

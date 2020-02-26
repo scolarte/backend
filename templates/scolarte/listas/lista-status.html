@@ -1,0 +1,22 @@
+<option value="">--Eliga un estado--</option>
+
+<option value="recibida_no_pagada" {% if lista.status == "recibida_no_pagada"%}selected{%endif%}>Recibida no pagada</option>
+<option value="en_revision" {% if lista.status == "en_revision"%}selected{%endif%}>En Revision</option>
+<option value="recibida_pagada" {% if lista.status == "recibida_pagada"%}selected{%endif%}>Confirmar</option>
+<option value="en_camino" {% if lista.status == "en_camino"%}selected{%endif%}>En Camino</option>
+<option value="entregada" {% if lista.status == "entregada"%}selected{%endif%}>Entregada</option>
+<option value="cancelada" {% if lista.status == "cancelada"%}selected{%endif%}>Cancelada</option>
+<script>
+    $('#lista-estados-seller').change(function () {
+        let estado = $(this).find('option:selected').val();
+        $.post("{% url 'lists:update_status_list_seller' %}", {
+            lista_id: "{{ lista.id }}",
+            estatus: estado
+        }).done((response) => {            
+            location.reload();
+        }).fail( (error) => {
+            console.log(error);            
+        });
+    });
+</script>
+
