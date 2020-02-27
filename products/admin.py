@@ -23,8 +23,9 @@ class ProductImageInline(admin.StackedInline):
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ ProductImageInline, ]
     model = Product
-    list_display = ['short_name', 'price', 'stock', 'available', 'created_at', 'modified_at']
+    list_display = ['system_id', 'category', 'brand', 'short_name', 'price', 'stock', 'available', 'created_at', 'modified_at']
     list_editable = ['price', 'stock', 'available']
+    search_fields = ['system_id', 'short_name']
     prepopulated_fields = {'slug':('short_name',)}
     list_per_page = 20
     
