@@ -62,4 +62,7 @@ class ListItem(models.Model):
     def sub_total(self):
         return Decimal(self.product.price * self.quantity)
 
+    def sub_total_iva(self):
+        return Decimal(self.product.price * 0.12)
+
 
