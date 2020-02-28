@@ -80,8 +80,12 @@
                                                 <dd class="col-sm-10"><span class="badge badge-{{lista.status|fancy_status_class}}">{{lista.status|fancy_status_list}}</span>  <span class="badge badge-outline-info">{{lista.status|fancy_status_message}}.</span></dd>
                                                 <dt class="col-sm-2"><b>Codigo Lista:</b></dt>
                                                 <dd class="col-sm-10"><span class="badge badge-dark">LSC000{{lista.id}}</span></dd>                                                                                                
-                                                <dt class="col-sm-2"><b>Total:</b></dt>
-                                                <dd class="col-sm-10"><span id="lista_total_value">${{list_total}}</span></dd> 
+                                                <dt class="col-sm-2"><b>Subtotal:</b></dt>
+                                                <dd class="col-sm-10"><span id="lista_subtotal_value">${{list_total}}</span></dd> 
+                                                <dt class="col-sm-2"><b>I.V.A:</b></dt>
+                                                <dd class="col-sm-10"><span id="lista_iva_value">${{iva}}</span></dd> 
+                                                <dt class="col-sm-2"><b>Totala Pagar:</b></dt>
+                                                <dd class="col-sm-10"><span id="lista_total_value"><b>${{total}}</b></span></dd> 
                                                 <dt class="col-sm-2"><b>Productos:</b></dt>
                                                 <dd class="col-sm-10">{{list_items_count}}</dd>
                                                 <dt class="col-sm-2"><b>Lista Imagen:</b></dt> 
@@ -299,23 +303,22 @@
             action: dataAction
         }).done((response) => {            
             if(response.response === 'ok') {
-                const precioFinal = precio*parseInt(response.quantity);                
-                let lista_total= null;
-                if (response.action === "add"){
-                    lista_total = parseFloat($('#lista_total_value').html().replace('$', '').replace(",",".")) + precio;
-                    if(response.quantity > 0 && $("#minorQuantity-"+listProductId).is(':disabled') ){
-                        console.log("Entro")
+                const precioFinal = precio*parseInt(response.quantity);                                
+                if (response.action === "add"){                    
+                    if(response.quantity > 0 && $("#minorQuantity-"+listProductId).is(':disabled') ){                        
                         $("button#minorQuantity-"+listProductId).prop('disabled', false);
                     }
-                }else{                    
-                    lista_total = parseFloat($('#lista_total_value').html().replace('$', '').replace(",",".")) - precio;
+                }else{                                        
                     if(response.quantity <= 1){
                         e.target.disabled = true;
                     }
                 }
                 $('.showTotal-'+listItemId).html('$'+String(precioFinal.toFixed(2)).replace('.',','));
-                $('.quantity-'+listItemId).html(response.quantity);                
-                $('#lista_total_value').html("$"+String(lista_total.toFixed(2)).replace('.', ','));
+                $('.quantity-'+listItemId).html(response.quantity);                                
+                $('#lista_subtotal_value').html('$'+response.subtotal.replace('.', ','))
+                $('#lista_total_value').html("$"+response.total.replace('.', ','));
+                $('#lista_iva_value').html('$'+response.iva.replace('.', ','));
+
                 console.log('Debio actualizar')
             }
         }).fail( (error) => {
