@@ -41,37 +41,7 @@
                     </div>
                 </div>
             </form>
-        </div>
-        <div class="">
-            {% if is_paginated %}
-            <nav>
-                <ul class="pagination">
-                    {% if page_obj.has_previous %}
-                    <li class="page-item"><a
-                            href="?filtro={{ filtro }}&Buscar&page={{ page_obj.previous_page_number }}"><span
-                                class="page-link">Anterior</span></a></li>
-                    {% else %}
-                    <li class="page-item disabled"><span class="page-link">Anterior</span></li>
-                    {% endif %}
-                    {% for i in paginator.page_range %}
-                    {% if page_obj.number == i %}
-                    <li class="page-item active"><span class="page-link">{{ i }}</span></li>
-                    {% else %}
-                    <li class="page-item"><a href="?filtro={{ filtro }}&Buscar&page={{ i }}"><span
-                                class="page-link">{{ i }}</span></a></li>
-                    {% endif %}
-                    {% endfor %}
-                    {% if page_obj.has_next %}
-                    <li class="page-item"><a
-                            href="?filtro={{ filtro }}&Buscar&page={{ page_obj.next_page_number }}"><span
-                                class="page-link">Siguiente</span></a></li>
-                    {% else %}
-                    <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
-                    {% endif %}
-                </ul>
-            </nav>
-            {% endif %}
-        </div>
+        </div>        
     </div>
     <!-- </div> -->
 
@@ -237,7 +207,36 @@
             
         </div>
     </div>
-
+    <div class="">
+        {% if is_paginated %}
+        <nav>
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a
+                        href="?filtro={{ filtro }}&Buscar&page={{ page_obj.previous_page_number }}"><span
+                            class="page-link">Anterior</span></a></li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">Anterior</span></li>
+                {% endif %}
+                {% for i in paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                {% else %}
+                <li class="page-item"><a href="?filtro={{ filtro }}&Buscar&page={{ i }}"><span
+                            class="page-link">{{ i }}</span></a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item"><a
+                        href="?filtro={{ filtro }}&Buscar&page={{ page_obj.next_page_number }}"><span
+                            class="page-link">Siguiente</span></a></li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
 
 </div>
 
