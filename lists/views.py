@@ -3,7 +3,7 @@ from .models import List, ListItem, School
 from products.models import Product, ProductItem
 from django.views.generic import TemplateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from decimal import Decimal
+from decimal import Decimal, ROUND_DOWN
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import ListForm, ListFormAllLists
@@ -72,8 +72,15 @@ def addQuantity(request):
             
         quantity = list_item.quantity
         list_item.save()
+
+        list_items = ListItem.objects.filter(lista__id=lista_id)
+        list_total = 0        
+        for list_item in list_items:
+            list_total += Decimal(list_item.sub_total())            
+        iva = Decimal(str(list_total * Decimal(0.12))).quantize(Decimal('1.00'), rounding=ROUND_DOWN)    
+        total = iva+list_total            
         return HttpResponse(json.dumps({
-            "response": "ok", "quantity": quantity, "action": action}), 
+            "response": "ok", "quantity": quantity, "action": action, "subtotal": str(list_total), "iva": str(iva), "total": str(total)}),            
             content_type="application/json")
     except Exception as e:
             print(str(e))    
@@ -122,8 +129,11 @@ class ListDetailsFormView(LoginRequiredMixin, UpdateView):
         context['list_items_count'] = len(list_items)
         list_total = 0
         for list_item in list_items:
-            list_total += Decimal(list_item.sub_total())
-        context['list_total'] = list_total
+            list_total += Decimal(list_item.sub_total())            
+        iva = Decimal(str(list_total * Decimal(0.12))).quantize(Decimal('1.00'), rounding=ROUND_DOWN)
+        context['list_total'] = list_total        
+        context['iva'] = iva
+        context['total'] = iva+list_total
         return context
 
     def form_valid(self, form):
